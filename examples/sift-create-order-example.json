@@ -1,0 +1,32 @@
+{
+  "$type": "$create_order",
+  "$api_key": "YOUR_API_KEY",
+  "$user_id": "billy_jones_301",
+  "$session_id": "gigtleqddo84l8cm15qe4il",
+  "$order_id": "ORDER-28168441",
+  "$user_email": "billjones1@example.com",
+  "$amount": 115940000,
+  "$currency_code": "USD",
+  "$billing_address": {
+    "$name": "Bill Jones",
+    "$address_1": "2100 Main Street",
+    "$city": "New London",
+    "$region": "New Hampshire",
+    "$country": "US",
+    "$zipcode": "03257",
+    "$phone": "+1-415-555-6041"
+  },
+  "$payment_methods": [
+    {
+      "$payment_type": "$credit_card",
+      "$payment_gateway": "$stripe",
+      "$card_bin": "542486",
+      "$card_last4": "4444"
+    }
+  ],
+  "$brand_name": "ExampleStore",
+  "$site_country": "US",
+  "$site_domain": "example.com",
+  "$ip": "192.168.1.1",
+  "$time": 1748131200000
+}

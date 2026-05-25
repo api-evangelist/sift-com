@@ -1,0 +1,115 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Sift
+providerId: sift-com
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: false
+tags:
+  - Fraud Prevention
+  - Trust And Safety
+  - Risk Scoring
+description: |
+  Sift sells its Digital Trust and Safety platform via custom enterprise contracts rather than a published self-serve
+  price list. Plans below capture the productized packaging surfaced on sift.com (Payment Protection, Account
+  Defense, Content Integrity, Dispute Management, plus the Sift Score API for advanced data science teams).
+  Specific dollar pricing requires a sales conversation.
+sources:
+  - https://sift.com/products
+  - https://sift.com/platform/payment-protection
+  - https://sift.com/platform/account-defense
+  - https://sift.com/platform/dispute-management
+plans:
+  - id: sift-payment-protection
+    name: Payment Protection
+    type: enterprise
+    description: Stops payment fraud and chargebacks across checkout, transactions, and post-authorization decisioning.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: contract
+        metric: contract
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: Call
+        userMultiplied: false
+        description: Custom annual contract priced on processed volume and risk decisions.
+    elements:
+      - name: Real-time risk scoring on transactions
+      - name: Configurable Workflows for accept, review, and block
+      - name: Console and case management for fraud analysts
+      - name: Dispute Management add-on
+  - id: sift-account-defense
+    name: Account Defense
+    type: enterprise
+    description: Defends against account takeover (ATO), credential stuffing, and account abuse with risk-based authentication signals.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: contract
+        metric: contract
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: Call
+        userMultiplied: false
+    elements:
+      - name: Login and registration risk scoring
+      - name: Step-up verification via the Sift Verification API
+      - name: Workflow automation for password resets and lockouts
+  - id: sift-content-integrity
+    name: Content Integrity
+    type: enterprise
+    description: Detects scams, spam, and abusive content across messaging, listings, and reviews.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: contract
+        metric: contract
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: Call
+        userMultiplied: false
+    elements:
+      - name: Content abuse scoring
+      - name: Automated content moderation Workflows
+      - name: Analyst case queues for human review
+  - id: sift-dispute-management
+    name: Dispute Management
+    type: enterprise
+    description: Automates chargeback dispute representment with templated evidence packages tuned to issuer networks.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: contract
+        metric: contract
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: Call
+        userMultiplied: false
+    elements:
+      - name: Network-tuned representment templates
+      - name: Real-time dispute resolution
+      - name: Win-rate reporting and benchmarks
+  - id: sift-score-api
+    name: Sift Score API
+    type: enterprise
+    description: Direct API access to Sift Scores and reasons for customers building proprietary risk models on top of Sift signals.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: contract
+        metric: contract
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: Call
+        userMultiplied: false
+    elements:
+      - name: Sift Score across all configured abuse types
+      - name: Reason codes and feature attributions
+      - name: Programmatic rescore endpoint

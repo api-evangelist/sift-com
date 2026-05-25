@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/sift-com/json-schema/sift-event-schema.json",
+  "title": "Sift Event",
+  "description": "A Sift reserved or custom event submitted to the Sift Events API.",
+  "type": "object",
+  "required": ["$type", "$api_key"],
+  "properties": {
+    "$type": {
+      "type": "string",
+      "description": "Reserved Sift event type. Begins with a dollar sign for reserved types; custom types are user-defined.",
+      "examples": [
+        "$create_account",
+        "$create_order",
+        "$transaction",
+        "$login",
+        "$chargeback",
+        "$verification"
+      ]
+    },
+    "$api_key": {
+      "type": "string",
+      "description": "Sift account API key. May alternatively be sent via HTTP Basic header."
+    },
+    "$user_id": { "type": "string" },
+    "$session_id": { "type": "string" },
+    "$ip": { "type": "string" },
+    "$user_email": { "type": "string", "format": "email" },
+    "$name": { "type": "string" },
+    "$phone": { "type": "string" },
+    "$browser": {
+      "type": "object",
+      "properties": {
+        "$user_agent": { "type": "string" },
+        "$accept_language": { "type": "string" },
+        "$content_language": { "type": "string" }
+      }
+    },
+    "$app": {
+      "type": "object",
+      "properties": {
+        "$os": { "type": "string" },
+        "$os_version": { "type": "string" },
+        "$device_manufacturer": { "type": "string" },
+        "$device_model": { "type": "string" },
+        "$device_unique_id": { "type": "string" },
+        "$app_name": { "type": "string" },
+        "$app_version": { "type": "string" },
+        "$client_language": { "type": "string" }
+      }
+    },
+    "$time": { "type": "integer", "description": "Unix epoch milliseconds when the event occurred." }
+  },
+  "additionalProperties": true
+}

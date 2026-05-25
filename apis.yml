@@ -1,0 +1,284 @@
+aid: sift-com
+url: https://raw.githubusercontent.com/api-evangelist/sift-com/refs/heads/main/apis.yml
+name: Sift
+tags:
+  - Fraud Prevention
+  - Trust And Safety
+  - Risk Scoring
+  - Identity Verification
+  - Chargebacks
+  - Account Takeover
+  - Content Abuse
+kind: contract
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+apis:
+  - aid: sift-com:sift-events-api
+    name: Sift Events API
+    tags:
+      - Fraud
+      - Events
+      - Trust And Safety
+    humanURL: https://developers.sift.com/docs/curl/events-api
+    properties:
+      - url: https://developers.sift.com/docs/curl/events-api
+        type: Documentation
+      - url: openapi/sift-events-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/sift-event-schema.json
+        type: JSONSchema
+      - url: examples/sift-create-order-example.json
+        type: Example
+      - type: NaftikoCapability
+        url: capabilities/events-events.yaml
+    description: |
+      The primary Sift integration surface. POST events such as `$create_account`, `$create_order`, `$transaction`,
+      `$login`, `$chargeback`, and `$verification` to api.sift.com/v205/events to feed Sift's fraud and abuse
+      models. Synchronous scoring and workflow status can be requested per call.
+  - aid: sift-com:sift-decisions-api
+    name: Sift Decisions API
+    tags:
+      - Decisions
+      - Fraud
+      - Workflows
+    humanURL: https://developers.sift.com/docs/curl/decisions-api
+    properties:
+      - url: https://developers.sift.com/docs/curl/decisions-api
+        type: Documentation
+      - url: openapi/sift-decisions-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/sift-decision-schema.json
+        type: JSONSchema
+      - url: examples/sift-apply-decision-example.json
+        type: Example
+      - type: NaftikoCapability
+        url: capabilities/decisions-decisions.yaml
+    description: |
+      Apply and retrieve decisions (block, watch, accept) against Sift users, orders, sessions, and content.
+      Decisions feed Sift's ML models, drive downstream webhooks, and are the modern replacement for the legacy
+      Labels API.
+  - aid: sift-com:sift-score-api
+    name: Sift Score API
+    tags:
+      - Scores
+      - Risk
+      - Fraud
+    humanURL: https://developers.sift.com/docs/curl/score-api
+    properties:
+      - url: https://developers.sift.com/docs/curl/score-api
+        type: Documentation
+      - url: openapi/sift-score-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/sift-score-schema.json
+        type: JSONSchema
+      - type: NaftikoCapability
+        url: capabilities/score-scores.yaml
+    description: |
+      Retrieve and recompute Sift Scores for a user across configured abuse types (payment, content, account
+      takeover, account abuse, promotion). Scores range from 0 to 100 and ship with reason codes that explain the
+      contributing model features.
+  - aid: sift-com:sift-verification-api
+    name: Sift Verification API
+    tags:
+      - Verification
+      - MFA
+      - Identity
+    humanURL: https://developers.sift.com/docs/curl/verification-api
+    properties:
+      - url: https://developers.sift.com/docs/curl/verification-api
+        type: Documentation
+      - url: openapi/sift-verification-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/sift-verification-schema.json
+        type: JSONSchema
+      - type: NaftikoCapability
+        url: capabilities/verification-verification.yaml
+    description: |
+      Send, resend, and check user verification challenges across SMS, email, phone, push, biometric, and security
+      key channels. Outcomes are recorded on the user timeline and feed Sift's risk models.
+  - aid: sift-com:sift-workflows-api
+    name: Sift Workflows API
+    tags:
+      - Workflows
+      - Automation
+      - Fraud
+    humanURL: https://developers.sift.com/docs/curl/workflows
+    properties:
+      - url: https://developers.sift.com/docs/curl/workflows
+        type: Documentation
+      - url: openapi/sift-workflows-api-openapi.yml
+        type: OpenAPI
+      - type: NaftikoCapability
+        url: capabilities/workflows-workflows.yaml
+    description: |
+      Sift Workflows automate decisions on users, orders, sessions, and content. The Workflows API surfaces
+      synchronous workflow status through the Events API (`return_workflow_status=true`) and exposes endpoints for
+      retrieving Workflow run history.
+  - aid: sift-com:sift-labels-api
+    name: Sift Labels API
+    tags:
+      - Labels
+      - Fraud
+      - Deprecated
+    humanURL: https://developers.sift.com/docs/curl/labels-api
+    properties:
+      - url: https://developers.sift.com/docs/curl/labels-api
+        type: Documentation
+      - url: openapi/sift-labels-api-openapi.yml
+        type: OpenAPI
+      - type: NaftikoCapability
+        url: capabilities/labels-labels.yaml
+    description: |
+      Apply and remove fraud labels on Sift users. Labels are training signal for Sift's risk models. Deprecated in
+      favor of the Decisions API for new integrations, but still supported for backfill.
+common:
+  - url: https://sift.com
+    type: Portal
+  - url: https://developers.sift.com
+    type: Documentation
+  - url: https://developers.sift.com/docs/curl/api-overview
+    name: Sift API Overview
+    type: APIReference
+  - url: https://developers.sift.com/tutorials
+    type: GettingStarted
+  - url: https://developers.sift.com/docs/curl/api-overview/authentication
+    type: Authentication
+  - url: https://developers.sift.com/docs/curl/api-overview/rate-limits
+    type: RateLimits
+  - url: https://status.sift.com
+    type: StatusPage
+  - url: https://status.sift.com/history
+    type: ChangeLog
+  - url: https://support.sift.com
+    type: Support
+  - url: https://engineering.sift.com
+    type: Blog
+  - url: https://sift.com/blog
+    type: Blog
+  - url: https://sift.com/legal-and-compliance
+    type: TermsOfService
+  - url: https://sift.com/privacy-policy
+    type: PrivacyPolicy
+  - url: https://console.sift.com
+    name: Sift Console
+    type: Console
+  - url: https://console.sift.com/signup
+    type: SignUp
+  - url: https://github.com/SiftScience
+    type: GitHubOrganization
+  - url: https://github.com/SiftScience/sift-python
+    name: Sift Python SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-ruby
+    name: Sift Ruby SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-java
+    name: Sift Java SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-php
+    name: Sift PHP SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-dotnet
+    name: Sift .NET SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-ios
+    name: Sift iOS SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-android
+    name: Sift Android SDK
+    type: SDK
+  - url: https://github.com/SiftScience/sift-react-native
+    name: Sift React Native SDK
+    type: SDK
+  - url: https://www.linkedin.com/company/siftscience
+    type: LinkedIn
+  - url: https://twitter.com/GetSift
+    type: Twitter
+  - url: https://www.youtube.com/c/SiftScience
+    type: YouTube
+  - url: rules/sift-com-rules.yml
+    type: SpectralRules
+  - url: vocabulary/sift-com-vocabulary.yml
+    type: Vocabulary
+  - url: json-ld/sift-context.jsonld
+    type: JSONLD
+  - url: plans/sift-com-plans-pricing.yml
+    type: Plans
+  - url: rate-limits/sift-com-rate-limits.yml
+    type: RateLimits
+  - url: finops/sift-com-finops.yml
+    type: FinOps
+  - type: Features
+    data:
+      - name: Sift Score
+        description: Unified 0 to 100 risk score per abuse type powered by Sift's global trust network.
+      - name: Workflows
+        description: Visual rule and ML composition that automates accept, review, and block decisions.
+      - name: Console
+        description: Analyst workbench for case management, queue review, and decisioning.
+      - name: Device Fingerprinting
+        description: JavaScript snippet plus iOS, Android, and React Native SDKs for device telemetry.
+      - name: Synchronous Scoring
+        description: Inline scoring on the Events API via `return_score=true` for real-time decisioning.
+      - name: Verification
+        description: Built-in SMS, email, phone, push, biometric, and security key verification with risk hooks.
+      - name: Dispute Management
+        description: Automated chargeback representment with network-tuned evidence packages.
+      - name: Sandbox Environment
+        description: Sandbox API keys for safe integration and load testing.
+  - type: UseCases
+    data:
+      - name: Payment Fraud
+        description: Stop card-not-present fraud, stolen card use, and high-risk transactions at checkout.
+      - name: Account Takeover
+        description: Detect credential stuffing and ATO at login with device, behavior, and identity signals.
+      - name: Account Creation Abuse
+        description: Block fake account creation, fraud rings, and bot signups.
+      - name: Promotion Abuse
+        description: Detect referral, coupon, and promotion abuse across new and existing users.
+      - name: Content Scams
+        description: Catch spam, scams, and abusive content across messaging, listings, and reviews.
+      - name: Money Movement
+        description: Risk score peer-to-peer transfers, withdrawals, and fintech money movement flows.
+      - name: Chargeback Dispute Management
+        description: Automate dispute representment to recover chargeback revenue.
+  - type: Solutions
+    data:
+      - name: Digital Commerce
+      - name: Internet And Software
+      - name: Finance And Fintech
+      - name: Online Gambling
+      - name: Travel And Transportation
+      - name: Food And Delivery
+  - type: Integrations
+    data:
+      - name: Stripe
+        description: Card-not-present scoring on Stripe transactions.
+      - name: Adyen
+        description: Risk decisioning integrated with Adyen payment flows.
+      - name: Braintree
+        description: Risk decisioning integrated with Braintree.
+      - name: Shopify
+        description: Sift app for the Shopify ecosystem.
+      - name: Auth0
+        description: Login risk decisioning via Sift signals.
+      - name: Salesforce
+        description: Sift signals surfaced into Salesforce customer records.
+      - name: Segment
+        description: Event piping from Segment into the Sift Events API.
+created: '2025-09-15T00:00:00.000Z'
+modified: '2026-05-25'
+position: Consuming
+description: |
+  Sift (formerly Sift Science) is the San Francisco-based Digital Trust and Safety platform that protects more than
+  700 global brands from payment fraud, account takeover, content abuse, promotion abuse, and money movement risk.
+  Sift's APIs ingest user, device, payment, content, and verification events, return real-time risk scores per
+  abuse type, automate decisions through Workflows, ship a Verification API for step-up challenges, and operate a
+  Console for analyst case management. Sift was founded in 2011, processes more than one trillion events per year,
+  and reports a median annual loss prevented of about $4.2M per customer.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
+    X: apievangelist
+    url: https://apievangelist.com
+specificationVersion: '0.16'

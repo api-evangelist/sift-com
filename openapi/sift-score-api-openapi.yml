@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  title: Sift Score API
+  description: |
+    The Sift Score API returns risk scores for a user across the abuse types you have
+    enabled (payment abuse, content abuse, account takeover, account abuse,
+    promotion abuse, legacy). Scores range from 0 (lowest risk) to 100 (highest risk)
+    and reflect Sift's machine learning models trained across the global Sift network.
+  version: '205'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+servers:
+  - url: https://api.sift.com/v205
+    description: Sift Production API
+security:
+  - BasicAuth: []
+tags:
+  - name: Scores
+    description: Retrieve and recompute Sift risk scores.
+paths:
+  /score/{user_id}:
+    get:
+      summary: Sift Get User Score
+      description: Retrieve the latest cached Sift Score for the user across the requested abuse types.
+      operationId: getScore
+      tags: [Scores]
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - name: abuse_types
+          in: query
+          schema:
+            type: string
+          description: Comma-separated abuse types to return scores for.
+      responses:
+        '200':
+          description: Score response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoreResponse'
+  /rescore/{user_id}:
+    post:
+      summary: Sift Rescore User
+      description: Force a fresh Sift Score computation for the user. Useful after a label update or out-of-band signal change.
+      operationId: rescoreUser
+      tags: [Scores]
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - name: abuse_types
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rescore response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoreResponse'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    ScoreResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        error_message:
+          type: string
+        user_id:
+          type: string
+        scores:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              score:
+                type: number
+              reasons:
+                type: array
+                items:
+                  type: object
+        latest_decisions:
+          type: object
+        latest_labels:
+          type: object
+        workflow_statuses:
+          type: array
+          items:
+            type: object

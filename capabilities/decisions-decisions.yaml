@@ -1,0 +1,151 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sift Decisions API — Decisions
+  description: Apply and retrieve analyst or workflow decisions on Sift users, orders, sessions, and content.
+  tags:
+    - Sift
+    - Decisions
+    - Fraud
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      SIFT_API_KEY: SIFT_API_KEY
+      SIFT_ACCOUNT_ID: SIFT_ACCOUNT_ID
+capability:
+  consumes:
+    - type: http
+      namespace: decisions-decisions
+      baseUri: https://api.sift.com
+      description: Sift Decisions API surface for applying and reading decisions across entity types.
+      resources:
+        - name: user-decisions
+          path: /v205/accounts/{account_id}/users/{user_id}/decisions
+          operations:
+            - name: applyuserdecision
+              method: POST
+              description: Sift Apply Decision To User
+              outputRawFormat: json
+              inputParameters:
+                - name: account_id
+                  in: path
+                  type: string
+                  required: true
+                - name: user_id
+                  in: path
+                  type: string
+                  required: true
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+            - name: getuserdecision
+              method: GET
+              description: Sift Get User Decision
+              outputRawFormat: json
+              inputParameters:
+                - name: account_id
+                  in: path
+                  type: string
+                  required: true
+                - name: user_id
+                  in: path
+                  type: string
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: order-decisions
+          path: /v205/accounts/{account_id}/users/{user_id}/orders/{order_id}/decisions
+          operations:
+            - name: applyorderdecision
+              method: POST
+              description: Sift Apply Decision To Order
+              outputRawFormat: json
+              inputParameters:
+                - name: account_id
+                  in: path
+                  type: string
+                  required: true
+                - name: user_id
+                  in: path
+                  type: string
+                  required: true
+                - name: order_id
+                  in: path
+                  type: string
+                  required: true
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+      authentication:
+        type: basic
+        value: '{{env.SIFT_API_KEY}}:'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: decisions-decisions-rest
+      port: 8080
+      description: REST adapter for Sift Decisions API.
+      resources:
+        - path: /v1/decisions/user
+          name: user-decisions
+          description: REST surface for user decisions.
+          operations:
+            - method: POST
+              name: applyuserdecision
+              description: Sift Apply Decision To User
+              call: decisions-decisions.applyuserdecision
+              with:
+                account_id: rest.account_id
+                user_id: rest.user_id
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: decisions-decisions-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter exposing one tool per Decisions operation.
+      tools:
+        - name: sift-apply-user-decision
+          description: Sift Apply Decision To User
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: false
+          call: decisions-decisions.applyuserdecision
+          with:
+            account_id: tools.account_id
+            user_id: tools.user_id
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: sift-apply-order-decision
+          description: Sift Apply Decision To Order
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: false
+          call: decisions-decisions.applyorderdecision
+          with:
+            account_id: tools.account_id
+            user_id: tools.user_id
+            order_id: tools.order_id
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.

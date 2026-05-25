@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/sift-com/json-schema/sift-decision-schema.json",
+  "title": "Sift Decision",
+  "description": "A decision applied to a Sift entity (user, order, session, or content).",
+  "type": "object",
+  "required": ["decision_id", "source"],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "description": "Identifier of the decision configured in the Sift Console."
+    },
+    "source": {
+      "type": "string",
+      "enum": ["MANUAL_REVIEW", "AUTOMATED_RULE", "CHARGEBACK"],
+      "description": "Origin of the decision."
+    },
+    "analyst": {
+      "type": "string",
+      "description": "Email or identifier of the analyst applying a MANUAL_REVIEW decision."
+    },
+    "description": {
+      "type": "string",
+      "description": "Free-form note recorded with the decision."
+    },
+    "time": {
+      "type": "integer",
+      "description": "Unix epoch milliseconds when the decision was applied."
+    }
+  },
+  "additionalProperties": false
+}

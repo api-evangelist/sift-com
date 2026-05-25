@@ -1,0 +1,40 @@
+extends:
+  - [spectral:oas, recommended]
+rules:
+  sift-info-title-required:
+    description: All Sift OpenAPI specs must have an info.title.
+    given: $.info
+    severity: error
+    then:
+      field: title
+      function: truthy
+  sift-info-version-required:
+    description: All Sift OpenAPI specs must have an info.version.
+    given: $.info
+    severity: error
+    then:
+      field: version
+      function: truthy
+  sift-server-base:
+    description: Sift servers should target api.sift.com.
+    given: $.servers[*].url
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://api\.sift\.com'
+  sift-operation-summary-title-case:
+    description: Operation summaries should use Title Case starting with Sift.
+    given: $.paths[*][get,post,put,patch,delete].summary
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: '^Sift [A-Z]'
+  sift-tags-required:
+    description: Every Sift operation must include at least one tag.
+    given: $.paths[*][get,post,put,patch,delete]
+    severity: error
+    then:
+      field: tags
+      function: truthy

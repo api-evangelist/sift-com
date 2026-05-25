@@ -1,0 +1,75 @@
+vocabulary: API Commons Vocabulary
+specificationVersion: '0.1'
+provider: Sift
+providerId: sift-com
+created: '2026-05-25'
+modified: '2026-05-25'
+description: Controlled vocabulary for Sift Digital Trust and Safety platform. Spans events, decisions, scores, verifications, workflows, and labels.
+tags:
+  - Fraud
+  - Trust And Safety
+  - Risk Scoring
+domains:
+  - id: events
+    name: Events
+    description: Reserved and custom Sift events submitted to the Events API.
+    terms:
+      - $create_account
+      - $update_account
+      - $create_order
+      - $update_order
+      - $transaction
+      - $login
+      - $logout
+      - $link_session_to_user
+      - $chargeback
+      - $order_status
+      - $add_item_to_cart
+      - $remove_item_from_cart
+      - $add_promotion
+      - $create_content
+      - $update_content
+      - $content_status
+      - $flag_content
+      - $submit_review
+      - $send_message
+      - $verification
+      - $update_password
+      - $security_notification
+      - $custom_event
+  - id: abuse-types
+    name: Abuse Types
+    description: Sift abuse score categories.
+    terms:
+      - payment_abuse
+      - content_abuse
+      - account_takeover
+      - account_abuse
+      - promotion_abuse
+      - legacy
+  - id: decision-sources
+    name: Decision Sources
+    description: Origin classifications for an applied decision.
+    terms:
+      - MANUAL_REVIEW
+      - AUTOMATED_RULE
+      - CHARGEBACK
+  - id: verification-types
+    name: Verification Types
+    description: Channels Sift can use to verify a user.
+    terms:
+      - $sms
+      - $email
+      - $phone
+      - $face
+      - $fingerprint
+      - $push
+      - $security_key
+  - id: entities
+    name: Entities
+    description: Sift entity types decisions and workflows can target.
+    terms:
+      - user
+      - order
+      - session
+      - content

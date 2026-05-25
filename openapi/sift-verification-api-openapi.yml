@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Sift Verification API
+  description: |
+    The Sift Verification API issues and validates one-time and knowledge-based
+    verification challenges (SMS, email, phone, face, fingerprint, push, security
+    key) tied to a Sift user and parent event. Verification outcomes are persisted
+    on the user timeline and feed Sift's risk models.
+  version: '1.0'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+servers:
+  - url: https://api.sift.com/v1
+    description: Sift Verification API
+security:
+  - BasicAuth: []
+tags:
+  - name: Verification
+    description: Send, resend, and check verification challenges.
+paths:
+  /verification/send:
+    post:
+      summary: Sift Send Verification
+      description: Initiate a verification challenge (SMS, email, phone, biometric) for a Sift user.
+      operationId: sendVerification
+      tags: [Verification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendVerificationRequest'
+      responses:
+        '200':
+          description: Verification dispatched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationResponse'
+  /verification/resend:
+    post:
+      summary: Sift Resend Verification
+      description: Resend the active verification challenge to the same destination.
+      operationId: resendVerification
+      tags: [Verification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                '$user_id':
+                  type: string
+      responses:
+        '200':
+          description: Verification resent.
+  /verification/check:
+    post:
+      summary: Sift Check Verification
+      description: Submit the user-entered verification code or proof for validation.
+      operationId: checkVerification
+      tags: [Verification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckVerificationRequest'
+      responses:
+        '200':
+          description: Verification result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationResponse'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    SendVerificationRequest:
+      type: object
+      required: ['$user_id', '$verification_type']
+      properties:
+        '$user_id':
+          type: string
+        '$send_to':
+          type: string
+          description: Phone number or email address to verify.
+        '$verification_type':
+          type: string
+          enum: ['$sms', '$email', '$phone', '$face', '$fingerprint', '$push', '$security_key']
+        '$verified_event':
+          type: string
+          description: The parent Sift event the verification is associated with.
+        '$verified_entity_id':
+          type: string
+        '$brand_name':
+          type: string
+        '$language':
+          type: string
+    CheckVerificationRequest:
+      type: object
+      required: ['$user_id', '$code']
+      properties:
+        '$user_id':
+          type: string
+        '$code':
+          type: integer
+    VerificationResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        error_message:
+          type: string
+        sent_at:
+          type: integer
+        checked_at:
+          type: integer

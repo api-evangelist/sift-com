@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/sift-com/json-schema/sift-verification-schema.json",
+  "title": "Sift Verification",
+  "description": "A Sift verification challenge or check.",
+  "type": "object",
+  "properties": {
+    "$user_id": { "type": "string" },
+    "$send_to": { "type": "string", "description": "Phone or email destination." },
+    "$verification_type": {
+      "type": "string",
+      "enum": ["$sms", "$email", "$phone", "$face", "$fingerprint", "$push", "$security_key"]
+    },
+    "$verified_event": { "type": "string", "description": "Parent Sift event being verified." },
+    "$verified_entity_id": { "type": "string" },
+    "$brand_name": { "type": "string" },
+    "$language": { "type": "string" },
+    "$code": { "type": "integer", "description": "User submitted verification code." },
+    "$reason": { "type": "string" },
+    "$shared_knowledge": { "type": "object" }
+  },
+  "required": ["$user_id"]
+}

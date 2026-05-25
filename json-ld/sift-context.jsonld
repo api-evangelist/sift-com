@@ -1,0 +1,69 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "sift": "https://api.sift.com/v205/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+
+    "Event": {
+      "@id": "sift:Event",
+      "@context": {
+        "type": { "@id": "sift:Event/type", "@type": "xsd:string" },
+        "api_key": { "@id": "sift:Event/apiKey", "@type": "xsd:string" },
+        "user_id": { "@id": "sift:Event/userId", "@type": "xsd:string" },
+        "session_id": { "@id": "sift:Event/sessionId", "@type": "xsd:string" },
+        "ip": { "@id": "sift:Event/ip", "@type": "xsd:string" },
+        "user_email": { "@id": "sift:Event/userEmail", "@type": "xsd:string" },
+        "time": { "@id": "sift:Event/time", "@type": "xsd:integer" }
+      }
+    },
+
+    "Decision": {
+      "@id": "sift:Decision",
+      "@context": {
+        "decision_id": { "@id": "sift:Decision/decisionId", "@type": "xsd:string" },
+        "source": { "@id": "sift:Decision/source", "@type": "xsd:string" },
+        "analyst": { "@id": "sift:Decision/analyst", "@type": "xsd:string" },
+        "description": { "@id": "sift:Decision/description", "@type": "xsd:string" },
+        "time": { "@id": "sift:Decision/time", "@type": "xsd:integer" }
+      }
+    },
+
+    "Score": {
+      "@id": "sift:Score",
+      "@context": {
+        "user_id": { "@id": "sift:Score/userId", "@type": "xsd:string" },
+        "score": { "@id": "sift:Score/score", "@type": "xsd:decimal" },
+        "abuse_type": { "@id": "sift:Score/abuseType", "@type": "xsd:string" },
+        "percentile": { "@id": "sift:Score/percentile", "@type": "xsd:decimal" },
+        "reasons": { "@id": "sift:Score/reasons", "@container": "@list" }
+      }
+    },
+
+    "Verification": {
+      "@id": "sift:Verification",
+      "@context": {
+        "user_id": { "@id": "sift:Verification/userId", "@type": "xsd:string" },
+        "verification_type": { "@id": "sift:Verification/verificationType", "@type": "xsd:string" },
+        "verified_event": { "@id": "sift:Verification/verifiedEvent", "@type": "xsd:string" },
+        "verified_entity_id": { "@id": "sift:Verification/verifiedEntityId", "@type": "xsd:string" },
+        "code": { "@id": "sift:Verification/code", "@type": "xsd:integer" },
+        "sent_at": { "@id": "sift:Verification/sentAt", "@type": "xsd:integer" },
+        "checked_at": { "@id": "sift:Verification/checkedAt", "@type": "xsd:integer" }
+      }
+    },
+
+    "WorkflowRun": {
+      "@id": "sift:WorkflowRun",
+      "@context": {
+        "id": { "@id": "sift:WorkflowRun/id", "@type": "xsd:string" },
+        "state": { "@id": "sift:WorkflowRun/state", "@type": "xsd:string" },
+        "config_version": { "@id": "sift:WorkflowRun/configVersion", "@type": "xsd:integer" },
+        "abuse_types": { "@id": "sift:WorkflowRun/abuseTypes", "@container": "@list" }
+      }
+    }
+  }
+}

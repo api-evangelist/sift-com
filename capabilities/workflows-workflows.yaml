@@ -1,0 +1,65 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sift Workflows API — Workflows
+  description: Inspect Sift Workflow runs and per-entity workflow status.
+  tags:
+    - Sift
+    - Workflows
+    - Automation
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      SIFT_API_KEY: SIFT_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: workflows-workflows
+      baseUri: https://api.sift.com
+      description: Sift Workflows API for inspecting workflow runs.
+      resources:
+        - name: workflow-run
+          path: /v205/accounts/{account_id}/workflows/runs/{run_id}
+          operations:
+            - name: getworkflowrun
+              method: GET
+              description: Sift Get Workflow Run
+              outputRawFormat: json
+              inputParameters:
+                - name: account_id
+                  in: path
+                  type: string
+                  required: true
+                - name: run_id
+                  in: path
+                  type: string
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+      authentication:
+        type: basic
+        value: '{{env.SIFT_API_KEY}}:'
+        placement: header
+  exposes:
+    - type: mcp
+      namespace: workflows-workflows-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for Sift Workflows operations.
+      tools:
+        - name: sift-get-workflow-run
+          description: Sift Get Workflow Run
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: workflows-workflows.getworkflowrun
+          with:
+            account_id: tools.account_id
+            run_id: tools.run_id
+          outputParameters:
+            - type: object
+              mapping: $.

@@ -1,0 +1,7 @@
+{
+  "decision_id": "block_user_payment_abuse",
+  "source": "MANUAL_REVIEW",
+  "analyst": "analyst@example.com",
+  "description": "Blocked after manual review of high-risk transaction.",
+  "time": 1748131200000
+}

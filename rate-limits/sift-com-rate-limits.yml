@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Sift
+providerId: sift-com
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Fraud Prevention
+  - Rate Limiting
+  - Quotas
+description: |
+  Published rate limits for the Sift Events, Score, Decisions, and Workflow APIs. Limits are documented at
+  developers.sift.com/docs/curl/api-overview and apply per Sift account. Sift returns HTTP 200 with an internal
+  status of 60 (or HTTP 429) when limits are exceeded.
+sources:
+  - https://developers.sift.com/docs/curl/api-overview
+  - https://developers.sift.com/docs/curl/events-api
+algorithm: leaky-bucket
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+  internalStatusCode: 60
+limits:
+  - api: Events API
+    scope: account
+    rps: 500
+    description: Default Events API throughput across an account.
+  - api: Events API
+    scope: per_user
+    rps: 3
+    description: Per `$user_id` Events API throughput.
+  - api: Events API (with return_score)
+    scope: account
+    rps: 27
+    description: Throughput when requesting synchronous Sift Scores via `return_score=true`.
+  - api: Events API (with return_score)
+    scope: per_user
+    rps: 1
+    description: Per `$user_id` throughput when requesting synchronous scores.
+  - api: Score API
+    scope: account
+    rps: 9
+    description: GET /score/{user_id} and POST /rescore/{user_id}.
+  - api: Decisions API
+    scope: account
+    rps: 40
+    description: Includes decisions in the Block category.
+  - api: Workflows API
+    scope: account
+    rps: 40
+    description: Includes Workflow status retrieval and inspection.
+  - api: Verification API
+    scope: account
+    rps: 9
+    description: Sift Verification send, resend, and check endpoints.

@@ -1,0 +1,89 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sift Events API — Events
+  description: Submit fraud and abuse signal events to the Sift Digital Trust and Safety platform with optional synchronous scoring.
+  tags:
+    - Sift
+    - Events
+    - Fraud
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      SIFT_API_KEY: SIFT_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: events-events
+      baseUri: https://api.sift.com
+      description: Sift Events API submission surface with optional synchronous scoring.
+      resources:
+        - name: v205-events
+          path: /v205/events
+          operations:
+            - name: sendevent
+              method: POST
+              description: Sift Send Event
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  description: Reserved Sift event JSON body.
+                  required: true
+                - name: return_score
+                  in: query
+                  type: boolean
+                  description: Return synchronous Sift Score.
+                - name: return_workflow_status
+                  in: query
+                  type: boolean
+                - name: abuse_types
+                  in: query
+                  type: string
+      authentication:
+        type: basic
+        value: '{{env.SIFT_API_KEY}}:'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: events-events-rest
+      port: 8080
+      description: REST adapter for Sift Events API.
+      resources:
+        - path: /v1/v205/events
+          name: v205-events
+          description: REST surface for v205-events.
+          operations:
+            - method: POST
+              name: sendevent
+              description: Sift Send Event
+              call: events-events.sendevent
+              with:
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: events-events-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter exposing one tool per Sift Events operation.
+      tools:
+        - name: sift-send-event
+          description: Sift Send Event
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: events-events.sendevent
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.

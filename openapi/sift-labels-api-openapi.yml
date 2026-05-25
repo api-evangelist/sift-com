@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Sift Labels API
+  description: |
+    The Sift Labels API records whether a user is fraudulent or legitimate. Labels
+    are training signal for Sift's machine learning models. The Labels API is
+    deprecated in favor of the Decisions API for new integrations but remains
+    supported for backfill and historical bookkeeping.
+  version: '205'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+servers:
+  - url: https://api.sift.com/v205
+    description: Sift Production API
+security:
+  - BasicAuth: []
+tags:
+  - name: Labels
+    description: Apply and remove fraud labels on Sift users.
+paths:
+  /users/{user_id}/labels:
+    post:
+      summary: Sift Apply User Label
+      description: Apply a fraud or legitimate label to a Sift user. Labels train Sift's risk models.
+      operationId: applyLabel
+      tags: [Labels]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelRequest'
+      responses:
+        '200':
+          description: Label accepted.
+    delete:
+      summary: Sift Remove User Label
+      description: Remove an existing label from a user.
+      operationId: removeLabel
+      tags: [Labels]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: abuse_type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Label removed.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    LabelRequest:
+      type: object
+      required: ['$api_key', '$is_bad']
+      properties:
+        '$api_key':
+          type: string
+        '$is_bad':
+          type: boolean
+          description: True if the user is fraudulent.
+        '$abuse_type':
+          type: string
+          enum: [payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy]
+        '$description':
+          type: string
+        '$source':
+          type: string
+        '$analyst':
+          type: string

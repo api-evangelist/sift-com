@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/sift-com/json-schema/sift-score-schema.json",
+  "title": "Sift Score",
+  "description": "A Sift risk score response for a user across one or more abuse types.",
+  "type": "object",
+  "properties": {
+    "status": { "type": "integer", "description": "0 indicates success." },
+    "error_message": { "type": "string" },
+    "user_id": { "type": "string" },
+    "scores": {
+      "type": "object",
+      "description": "Map of abuse type to score and reason objects.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "percentile": { "type": "number" },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "string" },
+                "details": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "latest_decisions": { "type": "object" },
+    "latest_labels": { "type": "object" },
+    "workflow_statuses": {
+      "type": "array",
+      "items": { "type": "object" }
+    }
+  }
+}

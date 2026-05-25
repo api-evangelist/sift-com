@@ -1,0 +1,98 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sift Verification API — Verification
+  description: Send, resend, and validate one-time and biometric verification challenges for Sift users.
+  tags:
+    - Sift
+    - Verification
+    - MFA
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      SIFT_API_KEY: SIFT_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: verification-verification
+      baseUri: https://api.sift.com
+      description: Sift Verification API for OTP, push, and biometric challenges.
+      resources:
+        - name: verification
+          path: /v1/verification
+          operations:
+            - name: sendverification
+              method: POST
+              description: Sift Send Verification
+              outputRawFormat: json
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+            - name: resendverification
+              method: POST
+              description: Sift Resend Verification
+              outputRawFormat: json
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+            - name: checkverification
+              method: POST
+              description: Sift Check Verification
+              outputRawFormat: json
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+      authentication:
+        type: basic
+        value: '{{env.SIFT_API_KEY}}:'
+        placement: header
+  exposes:
+    - type: mcp
+      namespace: verification-verification-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for Sift Verification operations.
+      tools:
+        - name: sift-send-verification
+          description: Sift Send Verification
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: verification-verification.sendverification
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: sift-check-verification
+          description: Sift Check Verification
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: verification-verification.checkverification
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.
