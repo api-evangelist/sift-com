@@ -1,0 +1,180 @@
+arazzo: 1.0.1
+info:
+  title: Sift Transaction Score And Decide
+  summary: Score a transaction, read the payment score, and decision the user or session.
+  description: >-
+    Real-time payment authorization defense. A $transaction event is scored
+    synchronously, the user's payment abuse score is read back for a stable
+    threshold check, and the workflow branches: a high score blocks the user
+    outright while a borderline score holds the session for review, leaving clean
+    transactions to pass. Every request is inlined so the authorization decision
+    is fully traceable without the source OpenAPI descriptions.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: scoreApi
+  url: ../openapi/sift-score-api-openapi.yml
+  type: openapi
+- name: decisionsApi
+  url: ../openapi/sift-decisions-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: transaction-score-decision
+  summary: Submit a transaction event, evaluate the score, and block or hold for review.
+  description: >-
+    Records a $transaction event for synchronous scoring, retrieves the payment
+    abuse score, and branches between a hard user block, a session hold-for-review,
+    or letting the transaction pass.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - accountId
+    - userId
+    - sessionId
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in the event body as $api_key.
+      accountId:
+        type: string
+        description: The Sift account identifier for the Decisions API path.
+      userId:
+        type: string
+        description: The payer's unique identifier ($user_id).
+      sessionId:
+        type: string
+        description: The session identifier used for the hold-for-review decision.
+      ip:
+        type: string
+        description: Optional originating IP address for the transaction.
+      abuseTypes:
+        type: string
+        description: Comma-separated abuse types to score the transaction on.
+        default: payment_abuse
+      blockThreshold:
+        type: number
+        description: Payment-abuse score (0-100) at or above which the user is hard-blocked.
+        default: 85
+      reviewThreshold:
+        type: number
+        description: Payment-abuse score (0-100) at or above which the session is held for review.
+        default: 60
+      blockUserDecisionId:
+        type: string
+        description: Decision id applied to the user on a hard block.
+      reviewSessionDecisionId:
+        type: string
+        description: Decision id applied to the session on a hold-for-review.
+  steps:
+  - stepId: sendTransaction
+    description: >-
+      Submit a $transaction event with return_score=true so Sift scores the
+      payment synchronously for payment abuse.
+    operationId: sendEvent
+    parameters:
+    - name: return_score
+      in: query
+      value: true
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $transaction
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+        $session_id: $inputs.sessionId
+        $ip: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+  - stepId: getTransactionScore
+    description: >-
+      Read back the latest payment abuse score for the user so the workflow
+      branches on a stable numeric value.
+    operationId: getScore
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+      paymentScore: $response.body#/scores/payment_abuse/score
+    onSuccess:
+    - name: hardBlock
+      type: goto
+      stepId: blockUser
+      criteria:
+      - context: $response.body
+        condition: $.scores.payment_abuse.score >= $inputs.blockThreshold
+        type: jsonpath
+    - name: holdForReview
+      type: goto
+      stepId: holdSession
+      criteria:
+      - context: $response.body
+        condition: $.scores.payment_abuse.score >= $inputs.reviewThreshold
+        type: jsonpath
+    - name: pass
+      type: end
+  - stepId: blockUser
+    description: >-
+      Hard-block the user with the configured decision when the payment abuse
+      score is at or above the block threshold.
+    operationId: applyUserDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        decision_id: $inputs.blockUserDecisionId
+        source: AUTOMATED_RULE
+        description: Auto-blocked by the transaction screening workflow on high payment-abuse score.
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      decision: $response.body#/decision
+    onSuccess:
+    - name: blocked
+      type: end
+  - stepId: holdSession
+    description: >-
+      Hold the session for review with the configured decision when the score is
+      borderline but below the hard-block threshold.
+    operationId: applySessionDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: session_id
+      in: path
+      value: $inputs.sessionId
+    requestBody:
+      contentType: application/json
+      payload:
+        decision_id: $inputs.reviewSessionDecisionId
+        source: AUTOMATED_RULE
+        description: Held for review by the transaction screening workflow on borderline payment-abuse score.
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    scores: $steps.getTransactionScore.outputs.scores
+    blockDecision: $steps.blockUser.outputs.decision

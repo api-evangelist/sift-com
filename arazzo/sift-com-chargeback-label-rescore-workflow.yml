@@ -1,0 +1,124 @@
+arazzo: 1.0.1
+info:
+  title: Sift Chargeback Label And Rescore
+  summary: Record a chargeback, label the user as fraudulent, and force a fresh score.
+  description: >-
+    The fraud-feedback loop that keeps Sift's models sharp. When a chargeback
+    arrives the workflow records a $chargeback event, applies a fraudulent label
+    to the user as a payment-abuse training signal, forces a fresh Sift Score
+    computation so downstream systems see the updated risk immediately, and reads
+    the recomputed score back. The Labels API is deprecated in favor of Decisions
+    for new integrations but remains supported for backfill, which is the
+    historical-bookkeeping purpose modeled here. Every request is inlined.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: labelsApi
+  url: ../openapi/sift-labels-api-openapi.yml
+  type: openapi
+- name: scoreApi
+  url: ../openapi/sift-score-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: chargeback-label-rescore
+  summary: Submit a chargeback event, label the user fraudulent, rescore, and read the new score.
+  description: >-
+    Records a $chargeback event, applies a fraud label for payment abuse, forces
+    a rescore of the user, and retrieves the recomputed score.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - userId
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in event and label bodies as $api_key.
+      userId:
+        type: string
+        description: The user's unique identifier ($user_id).
+      analyst:
+        type: string
+        description: Optional analyst email recorded with the label.
+      abuseType:
+        type: string
+        description: Abuse type for the label and rescore (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).
+        default: payment_abuse
+  steps:
+  - stepId: sendChargeback
+    description: >-
+      Record a $chargeback event for the user so the dispute is captured on the
+      Sift timeline.
+    operationId: sendEvent
+    parameters:
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseType
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $chargeback
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+  - stepId: labelUser
+    description: >-
+      Apply a fraudulent label to the user for the chargeback abuse type as a
+      training signal for Sift's models.
+    operationId: applyLabel
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        $api_key: $inputs.apiKey
+        $is_bad: true
+        $abuse_type: $inputs.abuseType
+        $description: Labeled fraudulent following a chargeback.
+        $source: $inputs.analyst
+        $analyst: $inputs.analyst
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: rescore
+    description: >-
+      Force a fresh Sift Score computation so the chargeback label is reflected
+      in the user's risk immediately.
+    operationId: rescoreUser
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+  - stepId: getUpdatedScore
+    description: >-
+      Read back the recomputed score to confirm the new risk value after the
+      label and rescore.
+    operationId: getScore
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+      latestLabels: $response.body#/latest_labels
+  outputs:
+    chargebackEventStatus: $steps.sendChargeback.outputs.eventStatus
+    updatedScores: $steps.getUpdatedScore.outputs.scores

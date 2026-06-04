@@ -1,0 +1,110 @@
+arazzo: 1.0.1
+info:
+  title: Sift Workflow Run Evaluation
+  summary: Trigger a synchronous workflow evaluation, list the user's runs, and inspect one.
+  description: >-
+    Inspect how Sift Workflows decided on a user. An event is submitted with
+    return_workflow_status=true to trigger a synchronous workflow evaluation, the
+    workflow runs that have evaluated against the user are listed, and a single
+    run is retrieved in full to read its state, entity, and history. Every request
+    is inlined so the evaluation can be traced without the source OpenAPI
+    descriptions.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: workflowsApi
+  url: ../openapi/sift-workflows-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: workflow-run-evaluation
+  summary: Submit an event for workflow evaluation, list user runs, and fetch one run.
+  description: >-
+    Records an event with synchronous workflow status, lists the workflow runs
+    that evaluated against the user, and retrieves a single run by id.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - accountId
+    - userId
+    - runId
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in the event body as $api_key.
+      accountId:
+        type: string
+        description: The Sift account identifier.
+      userId:
+        type: string
+        description: The user the workflows evaluate against ($user_id).
+      sessionId:
+        type: string
+        description: Optional session identifier for the event.
+      eventType:
+        type: string
+        description: Reserved Sift event type to submit (for example $create_order or $login).
+        default: $create_order
+      runId:
+        type: string
+        description: The workflow run id to retrieve in full.
+  steps:
+  - stepId: sendForWorkflow
+    description: >-
+      Submit an event with return_workflow_status=true so Sift evaluates its
+      configured workflows synchronously for the user.
+    operationId: sendEvent
+    parameters:
+    - name: return_workflow_status
+      in: query
+      value: true
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $inputs.eventType
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+        $session_id: $inputs.sessionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+      workflowStatuses: $response.body#/workflow_statuses
+  - stepId: listUserRuns
+    description: >-
+      List the workflow runs that have evaluated against the user to enumerate
+      recent evaluations.
+    operationId: listUserWorkflowRuns
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      runs: $response.body#/data
+  - stepId: getRun
+    description: >-
+      Retrieve a single workflow run by id to read its state, entity, abuse
+      types, and history.
+    operationId: getWorkflowRun
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: run_id
+      in: path
+      value: $inputs.runId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      runState: $response.body#/state
+      runHistory: $response.body#/history
+  outputs:
+    workflowStatuses: $steps.sendForWorkflow.outputs.workflowStatuses
+    runState: $steps.getRun.outputs.runState

@@ -1,0 +1,144 @@
+arazzo: 1.0.1
+info:
+  title: Sift Screen Order And Transaction
+  summary: Score an order, confirm payment risk with the user score, and decision the order.
+  description: >-
+    The end-to-end payment-abuse defense for checkout. A $create_order event is
+    submitted synchronously to score the purchase, the user's cached payment
+    abuse score is read back for a stable threshold comparison, and the workflow
+    branches: a risky order is blocked with an order-level decision while a clean
+    order proceeds. Every request is inlined so the flow can be executed without
+    consulting the source OpenAPI descriptions.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: scoreApi
+  url: ../openapi/sift-score-api-openapi.yml
+  type: openapi
+- name: decisionsApi
+  url: ../openapi/sift-decisions-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: screen-order-transaction
+  summary: Submit a create-order event, evaluate the payment-abuse score, and decision risky orders.
+  description: >-
+    Records a $create_order event for synchronous scoring, retrieves the latest
+    payment abuse score for the user, and applies an order-level decision when
+    the score exceeds the supplied threshold.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - accountId
+    - userId
+    - orderId
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in the event body as $api_key.
+      accountId:
+        type: string
+        description: The Sift account identifier for the Decisions API path.
+      userId:
+        type: string
+        description: The buyer's unique identifier ($user_id).
+      orderId:
+        type: string
+        description: The order identifier used in the order-decision path.
+      sessionId:
+        type: string
+        description: Optional session identifier for the checkout.
+      ip:
+        type: string
+        description: Optional originating IP address for the order.
+      abuseTypes:
+        type: string
+        description: Comma-separated abuse types to score and decision on.
+        default: payment_abuse
+      scoreThreshold:
+        type: number
+        description: Payment-abuse score (0-100) at or above which the order is blocked.
+        default: 75
+      blockOrderDecisionId:
+        type: string
+        description: Decision id to apply to a risky order (configured in the Sift Console).
+  steps:
+  - stepId: sendCreateOrder
+    description: >-
+      Submit a $create_order event for the user with return_score=true so Sift
+      scores the purchase synchronously for payment abuse.
+    operationId: sendEvent
+    parameters:
+    - name: return_score
+      in: query
+      value: true
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $create_order
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+        $session_id: $inputs.sessionId
+        $ip: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+      scoreResponse: $response.body#/score_response
+  - stepId: getPaymentScore
+    description: >-
+      Read back the latest cached payment abuse score for the user so the
+      workflow branches on a stable numeric value.
+    operationId: getScore
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+    onSuccess:
+    - name: riskyOrder
+      type: goto
+      stepId: blockOrder
+      criteria:
+      - context: $response.body
+        condition: $.scores.payment_abuse.score >= $inputs.scoreThreshold
+        type: jsonpath
+    - name: cleanOrder
+      type: end
+  - stepId: blockOrder
+    description: >-
+      Apply the configured block decision to the order entity when the payment
+      abuse score crossed the threshold.
+    operationId: applyOrderDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: order_id
+      in: path
+      value: $inputs.orderId
+    requestBody:
+      contentType: application/json
+      payload:
+        decision_id: $inputs.blockOrderDecisionId
+        source: AUTOMATED_RULE
+        description: Auto-blocked by the order screening workflow on high payment-abuse score.
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    scores: $steps.getPaymentScore.outputs.scores
+    orderEventStatus: $steps.sendCreateOrder.outputs.eventStatus

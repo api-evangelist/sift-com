@@ -1,0 +1,119 @@
+arazzo: 1.0.1
+info:
+  title: Sift Manual Review And Decide User
+  summary: Pull a user's score, resolve a valid decision, apply it, and confirm the result.
+  description: >-
+    The analyst manual-review loop. The workflow reads the user's current Sift
+    Score across the requested abuse types, lists the decisions configured for
+    the account so the chosen decision id is valid, applies the analyst's decision
+    to the user, and then reads back the latest decision status to confirm it
+    landed. Every request is inlined so a reviewer can follow the flow end to end
+    without the source OpenAPI descriptions.
+  version: 1.0.0
+sourceDescriptions:
+- name: scoreApi
+  url: ../openapi/sift-score-api-openapi.yml
+  type: openapi
+- name: decisionsApi
+  url: ../openapi/sift-decisions-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: review-and-decide-user
+  summary: Read a user's score, list account decisions, apply one, and confirm it.
+  description: >-
+    Retrieves the user's current score, lists the account's configured
+    decisions, applies the supplied decision to the user, and reads back the
+    decision status.
+  inputs:
+    type: object
+    required:
+    - accountId
+    - userId
+    - decisionId
+    properties:
+      accountId:
+        type: string
+        description: The Sift account identifier.
+      userId:
+        type: string
+        description: The user under review ($user_id).
+      decisionId:
+        type: string
+        description: The decision id the analyst is applying (must exist among the account's decisions).
+      analyst:
+        type: string
+        description: Optional analyst email recorded with the decision.
+      abuseTypes:
+        type: string
+        description: Comma-separated abuse types to read the score for.
+        default: payment_abuse,account_abuse,account_takeover
+  steps:
+  - stepId: getCurrentScore
+    description: >-
+      Read the user's current Sift Score across the requested abuse types to
+      ground the analyst's review.
+    operationId: getScore
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+      latestDecisions: $response.body#/latest_decisions
+  - stepId: listAccountDecisions
+    description: >-
+      List the decisions configured for the account so the chosen decision id is
+      known to be valid before it is applied.
+    operationId: listDecisions
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      decisions: $response.body#/data
+  - stepId: applyDecision
+    description: >-
+      Apply the analyst's decision to the user entity as a manual-review action.
+    operationId: applyUserDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        decision_id: $inputs.decisionId
+        source: MANUAL_REVIEW
+        analyst: $inputs.analyst
+        description: Applied during manual review of the user's Sift Score.
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      decision: $response.body#/decision
+  - stepId: confirmDecision
+    description: >-
+      Read back the latest decision status for the user to confirm the applied
+      decision is now in effect.
+    operationId: getUserDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    scores: $steps.getCurrentScore.outputs.scores
+    appliedDecision: $steps.applyDecision.outputs.decision

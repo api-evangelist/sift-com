@@ -1,0 +1,138 @@
+arazzo: 1.0.1
+info:
+  title: Sift Login Step-Up Verification
+  summary: Score a login for account takeover and require verification when risk is high.
+  description: >-
+    Adaptive authentication driven by the Sift Score. A $login event is scored
+    synchronously for account takeover, and when the score crosses the configured
+    threshold the workflow steps up: it sends a verification challenge to the user
+    and then validates the code the user enters. Low-risk logins skip the friction
+    entirely. Every request is inlined so the flow reads and runs on its own.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: verificationApi
+  url: ../openapi/sift-verification-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: login-step-up-verification
+  summary: Submit a login event, branch on the ATO score, and run a verification challenge.
+  description: >-
+    Records a $login event with synchronous scoring, and when the account
+    takeover score is high enough it dispatches a verification challenge and
+    checks the user-supplied code.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - userId
+    - sendTo
+    - verificationCode
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in the event body as $api_key.
+      userId:
+        type: string
+        description: The user's unique identifier ($user_id).
+      sessionId:
+        type: string
+        description: Optional session identifier for the login.
+      ip:
+        type: string
+        description: Optional originating IP address for the login.
+      sendTo:
+        type: string
+        description: Phone number or email to send the verification challenge to.
+      verificationType:
+        type: string
+        description: Verification channel to use ($sms, $email, $phone, $face, $fingerprint, $push, $security_key).
+        default: $sms
+      brandName:
+        type: string
+        description: Optional brand name shown in the verification message.
+      verificationCode:
+        type: integer
+        description: The code the user entered, submitted for validation.
+      abuseTypes:
+        type: string
+        description: Comma-separated abuse types to score the login on.
+        default: account_takeover
+      scoreThreshold:
+        type: number
+        description: ATO score (0-100) at or above which step-up verification is required.
+        default: 70
+  steps:
+  - stepId: sendLogin
+    description: >-
+      Submit a $login event with return_score=true so Sift scores the login for
+      account takeover synchronously.
+    operationId: sendEvent
+    parameters:
+    - name: return_score
+      in: query
+      value: true
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $login
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+        $session_id: $inputs.sessionId
+        $ip: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+      scoreResponse: $response.body#/score_response
+    onSuccess:
+    - name: highRiskLogin
+      type: goto
+      stepId: sendChallenge
+      criteria:
+      - context: $response.body
+        condition: $.score_response.scores.account_takeover.score >= $inputs.scoreThreshold
+        type: jsonpath
+    - name: lowRiskLogin
+      type: end
+  - stepId: sendChallenge
+    description: >-
+      Dispatch a verification challenge to the user through the requested
+      channel, tying it to the parent $login event.
+    operationId: sendVerification
+    requestBody:
+      contentType: application/json
+      payload:
+        $user_id: $inputs.userId
+        $send_to: $inputs.sendTo
+        $verification_type: $inputs.verificationType
+        $verified_event: $login
+        $brand_name: $inputs.brandName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sendStatus: $response.body#/status
+      sentAt: $response.body#/sent_at
+  - stepId: checkChallenge
+    description: >-
+      Validate the code the user entered against the active verification
+      challenge.
+    operationId: checkVerification
+    requestBody:
+      contentType: application/json
+      payload:
+        $user_id: $inputs.userId
+        $code: $inputs.verificationCode
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      checkStatus: $response.body#/status
+      checkedAt: $response.body#/checked_at
+  outputs:
+    loginEventStatus: $steps.sendLogin.outputs.eventStatus
+    verificationCheckStatus: $steps.checkChallenge.outputs.checkStatus

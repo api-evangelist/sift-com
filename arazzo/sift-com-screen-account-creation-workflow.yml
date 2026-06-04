@@ -1,0 +1,147 @@
+arazzo: 1.0.1
+info:
+  title: Sift Screen Account Creation
+  summary: Score a new account on signup and decision the user when risk is high.
+  description: >-
+    The canonical Sift onboarding defense. A $create_account event is submitted
+    synchronously with return_score=true so the freshest Sift Score is available
+    the moment the account is created. The workflow then reads back the user's
+    cached score across the requested abuse types and branches: when the account
+    abuse score crosses the configured threshold it applies a block (or watch)
+    decision to the user, otherwise it ends and lets the signup proceed. Every
+    request is spelled out inline so the flow can be read and run without opening
+    the underlying OpenAPI descriptions.
+  version: 1.0.0
+sourceDescriptions:
+- name: eventsApi
+  url: ../openapi/sift-events-api-openapi.yml
+  type: openapi
+- name: scoreApi
+  url: ../openapi/sift-score-api-openapi.yml
+  type: openapi
+- name: decisionsApi
+  url: ../openapi/sift-decisions-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: screen-account-creation
+  summary: Submit a create-account event, read the Sift Score, and decision risky users.
+  description: >-
+    Records a $create_account event for synchronous scoring, retrieves the
+    latest cached score for the user, and applies a decision to the user when the
+    score exceeds the supplied risk threshold.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - accountId
+    - userId
+    properties:
+      apiKey:
+        type: string
+        description: Sift account API key sent in the event body as $api_key.
+      accountId:
+        type: string
+        description: The Sift account identifier for the Decisions API path.
+      userId:
+        type: string
+        description: The end user's unique identifier ($user_id).
+      sessionId:
+        type: string
+        description: Optional session identifier for the event.
+      userEmail:
+        type: string
+        description: Optional email address for the new account.
+      ip:
+        type: string
+        description: Optional originating IP address for the signup.
+      abuseTypes:
+        type: string
+        description: Comma-separated abuse types to score and decision on.
+        default: account_abuse
+      scoreThreshold:
+        type: number
+        description: Risk score (0-100) at or above which the user is decisioned.
+        default: 80
+      riskyDecisionId:
+        type: string
+        description: Decision id to apply when the account looks risky (configured in the Sift Console).
+  steps:
+  - stepId: sendCreateAccount
+    description: >-
+      Submit a $create_account event for the user with return_score=true so Sift
+      computes a synchronous score for the requested abuse types.
+    operationId: sendEvent
+    parameters:
+    - name: return_score
+      in: query
+      value: true
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    requestBody:
+      contentType: application/json
+      payload:
+        $type: $create_account
+        $api_key: $inputs.apiKey
+        $user_id: $inputs.userId
+        $session_id: $inputs.sessionId
+        $user_email: $inputs.userEmail
+        $ip: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventStatus: $response.body#/status
+      scoreResponse: $response.body#/score_response
+  - stepId: getUserScore
+    description: >-
+      Read back the latest cached Sift Score for the user across the requested
+      abuse types so the workflow can branch on the numeric risk value.
+    operationId: getScore
+    parameters:
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    - name: abuse_types
+      in: query
+      value: $inputs.abuseTypes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      scores: $response.body#/scores
+      latestDecisions: $response.body#/latest_decisions
+    onSuccess:
+    - name: highRisk
+      type: goto
+      stepId: decisionRiskyUser
+      criteria:
+      - context: $response.body
+        condition: $.scores.account_abuse.score >= $inputs.scoreThreshold
+        type: jsonpath
+    - name: lowRisk
+      type: end
+  - stepId: decisionRiskyUser
+    description: >-
+      Apply the configured risky-user decision to the user entity when the
+      account abuse score crossed the threshold.
+    operationId: applyUserDecision
+    parameters:
+    - name: account_id
+      in: path
+      value: $inputs.accountId
+    - name: user_id
+      in: path
+      value: $inputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        decision_id: $inputs.riskyDecisionId
+        source: AUTOMATED_RULE
+        description: Auto-applied by the account-creation screening workflow on high Sift Score.
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      decision: $response.body#/decision
+      decidedEntity: $response.body#/entity
+  outputs:
+    scores: $steps.getUserScore.outputs.scores
+    appliedDecision: $steps.decisionRiskyUser.outputs.decision
