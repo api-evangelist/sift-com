@@ -1,0 +1,273 @@
+{
+  "info": {
+    "_postman_id": "e3a04039-32cf-4dd1-882e-8e604ec935a0",
+    "name": "Sift Score API",
+    "description": "The Sift Score API returns risk scores for a user across the abuse types you have\nenabled (payment abuse, content abuse, account takeover, account abuse,\npromotion abuse, legacy). Scores range from 0 (lowest risk) to 100 (highest risk)\nand reflect Sift's machine learning models trained across the global Sift network.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:17:35.000Z",
+    "updatedAt": "2026-06-05T15:17:35.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e3a04039-32cf-4dd1-882e-8e604ec935a0"
+  },
+  "item": [
+    {
+      "name": "score",
+      "item": [
+        {
+          "name": "{user_id}",
+          "item": [
+            {
+              "name": "Sift Get User Score",
+              "id": "61febb2f-768f-4aff-a6be-f4bc89473bd0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/score/:user_id?abuse_types=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "score",
+                    ":user_id"
+                  ],
+                  "query": [
+                    {
+                      "description": "Comma-separated abuse types to return scores for.",
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "486f7641-e0b2-42d6-a079-1295eff50486",
+                      "key": "user_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Retrieve the latest cached Sift Score for the user across the requested abuse types."
+              },
+              "response": [
+                {
+                  "id": "e39e5203-ca79-41ad-a337-4f3d327d8f8f",
+                  "name": "Score response.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: basic",
+                        "key": "Authorization",
+                        "value": "Basic <credentials>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/score/:user_id?abuse_types=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "score",
+                        ":user_id"
+                      ],
+                      "query": [
+                        {
+                          "description": "Comma-separated abuse types to return scores for.",
+                          "key": "abuse_types",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "user_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<integer>\",\n  \"error_message\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"scores\": {\n    \"minim7\": {\n      \"score\": \"<number>\"\n    },\n    \"voluptate30\": {\n      \"score\": \"<number>\"\n    }\n  },\n  \"latest_decisions\": {},\n  \"latest_labels\": {}\n}",
+                  "createdAt": "2026-06-05T15:17:36.000Z",
+                  "updatedAt": "2026-06-05T15:17:36.000Z",
+                  "uid": "35240-e39e5203-ca79-41ad-a337-4f3d327d8f8f"
+                }
+              ],
+              "createdAt": "2026-06-05T15:17:36.000Z",
+              "updatedAt": "2026-06-05T15:17:36.000Z",
+              "uid": "35240-61febb2f-768f-4aff-a6be-f4bc89473bd0"
+            }
+          ],
+          "id": "aa4044b4-0d36-47de-a8cd-a17641a302d3",
+          "createdAt": "2026-06-05T15:17:36.000Z",
+          "updatedAt": "2026-06-05T15:17:36.000Z",
+          "uid": "35240-aa4044b4-0d36-47de-a8cd-a17641a302d3"
+        }
+      ],
+      "id": "30c9baaf-eb28-4c5e-89ef-66efb87ee0cd",
+      "createdAt": "2026-06-05T15:17:36.000Z",
+      "updatedAt": "2026-06-05T15:17:36.000Z",
+      "uid": "35240-30c9baaf-eb28-4c5e-89ef-66efb87ee0cd"
+    },
+    {
+      "name": "rescore",
+      "item": [
+        {
+          "name": "{user_id}",
+          "item": [
+            {
+              "name": "Sift Rescore User",
+              "id": "904541b2-d402-45ce-a578-88cbd34672e4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/rescore/:user_id?abuse_types=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "rescore",
+                    ":user_id"
+                  ],
+                  "query": [
+                    {
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "57aa618d-9deb-462f-9ae7-28d774f71da8",
+                      "key": "user_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Force a fresh Sift Score computation for the user. Useful after a label update or out-of-band signal change."
+              },
+              "response": [
+                {
+                  "id": "cce3d81a-c02b-4188-8509-2e71f2d5d636",
+                  "name": "Rescore response.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: basic",
+                        "key": "Authorization",
+                        "value": "Basic <credentials>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/rescore/:user_id?abuse_types=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "rescore",
+                        ":user_id"
+                      ],
+                      "query": [
+                        {
+                          "key": "abuse_types",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "user_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<integer>\",\n  \"error_message\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"scores\": {\n    \"minim7\": {\n      \"score\": \"<number>\"\n    },\n    \"voluptate30\": {\n      \"score\": \"<number>\"\n    }\n  },\n  \"latest_decisions\": {},\n  \"latest_labels\": {}\n}",
+                  "createdAt": "2026-06-05T15:17:36.000Z",
+                  "updatedAt": "2026-06-05T15:17:36.000Z",
+                  "uid": "35240-cce3d81a-c02b-4188-8509-2e71f2d5d636"
+                }
+              ],
+              "createdAt": "2026-06-05T15:17:36.000Z",
+              "updatedAt": "2026-06-05T15:17:36.000Z",
+              "uid": "35240-904541b2-d402-45ce-a578-88cbd34672e4"
+            }
+          ],
+          "id": "0a0f7fff-9aa0-46b8-a37b-b3cc67a27c07",
+          "createdAt": "2026-06-05T15:17:36.000Z",
+          "updatedAt": "2026-06-05T15:17:36.000Z",
+          "uid": "35240-0a0f7fff-9aa0-46b8-a37b-b3cc67a27c07"
+        }
+      ],
+      "id": "f5104b67-d7ab-49d0-89a7-da1463aab454",
+      "createdAt": "2026-06-05T15:17:36.000Z",
+      "updatedAt": "2026-06-05T15:17:36.000Z",
+      "uid": "35240-f5104b67-d7ab-49d0-89a7-da1463aab454"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.sift.com/v205"
+    }
+  ]
+}

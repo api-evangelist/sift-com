@@ -1,0 +1,307 @@
+{
+  "info": {
+    "_postman_id": "dc648bb1-d93b-4e7a-b593-36b849940776",
+    "name": "Sift Events API",
+    "description": "The Sift Events API is the primary integration point with the Sift Digital Trust\nand Safety platform. It records user, device, payment, content, and verification\nevents used to compute fraud risk scores in real time. Events can be submitted\nsynchronously to receive an immediate risk score and workflow status.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:17:33.000Z",
+    "updatedAt": "2026-06-05T15:17:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-dc648bb1-d93b-4e7a-b593-36b849940776"
+  },
+  "item": [
+    {
+      "name": "events",
+      "item": [
+        {
+          "name": "Sift Send Event",
+          "id": "dc497f54-e8ed-4cfc-b950-dd88fa87ae79",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"$type\": \"$order_status\",\n  \"$api_key\": \"<string>\",\n  \"$user_id\": \"<string>\",\n  \"$session_id\": \"<string>\",\n  \"$ip\": \"<string>\",\n  \"$user_email\": \"<string>\",\n  \"$browser\": {},\n  \"$app\": {}\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events?return_score=<boolean>&return_workflow_status=<boolean>&abuse_types=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events"
+              ],
+              "query": [
+                {
+                  "description": "Return a synchronous Sift Score in the response.",
+                  "key": "return_score",
+                  "value": "<boolean>"
+                },
+                {
+                  "description": "Return synchronous Workflow status in the response.",
+                  "key": "return_workflow_status",
+                  "value": "<boolean>"
+                },
+                {
+                  "description": "Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).",
+                  "key": "abuse_types",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Submit an event to Sift for fraud and abuse scoring. The `$type` field selects\nthe reserved event type (for example, `$create_account`, `$create_order`,\n`$transaction`, `$login`, `$chargeback`, `$verification`). Pass\n`return_score=true` to receive a synchronous Sift Score in the response.\n"
+          },
+          "response": [
+            {
+              "id": "47dca059-33bf-452b-bbcf-b9c82b923e15",
+              "name": "Event accepted by Sift.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$type\": \"$order_status\",\n  \"$api_key\": \"<string>\",\n  \"$user_id\": \"<string>\",\n  \"$session_id\": \"<string>\",\n  \"$ip\": \"<string>\",\n  \"$user_email\": \"<string>\",\n  \"$browser\": {},\n  \"$app\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events?return_score=<boolean>&return_workflow_status=<boolean>&abuse_types=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "description": "Return a synchronous Sift Score in the response.",
+                      "key": "return_score",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Return synchronous Workflow status in the response.",
+                      "key": "return_workflow_status",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).",
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"status\": \"<integer>\",\n  \"error_message\": \"<string>\",\n  \"time\": \"<integer>\",\n  \"request\": \"<string>\",\n  \"score_response\": {}\n}",
+              "createdAt": "2026-06-05T15:17:34.000Z",
+              "updatedAt": "2026-06-05T15:17:34.000Z",
+              "uid": "35240-47dca059-33bf-452b-bbcf-b9c82b923e15"
+            },
+            {
+              "id": "7ea05851-c4e7-40bc-849f-3ca04de0fd84",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$type\": \"$order_status\",\n  \"$api_key\": \"<string>\",\n  \"$user_id\": \"<string>\",\n  \"$session_id\": \"<string>\",\n  \"$ip\": \"<string>\",\n  \"$user_email\": \"<string>\",\n  \"$browser\": {},\n  \"$app\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events?return_score=<boolean>&return_workflow_status=<boolean>&abuse_types=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "description": "Return a synchronous Sift Score in the response.",
+                      "key": "return_score",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Return synchronous Workflow status in the response.",
+                      "key": "return_workflow_status",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).",
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:17:34.000Z",
+              "updatedAt": "2026-06-05T15:17:34.000Z",
+              "uid": "35240-7ea05851-c4e7-40bc-849f-3ca04de0fd84"
+            },
+            {
+              "id": "d84df592-eef3-4629-a6ef-af967c314aa3",
+              "name": "Rate limited.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$type\": \"$order_status\",\n  \"$api_key\": \"<string>\",\n  \"$user_id\": \"<string>\",\n  \"$session_id\": \"<string>\",\n  \"$ip\": \"<string>\",\n  \"$user_email\": \"<string>\",\n  \"$browser\": {},\n  \"$app\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events?return_score=<boolean>&return_workflow_status=<boolean>&abuse_types=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "description": "Return a synchronous Sift Score in the response.",
+                      "key": "return_score",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Return synchronous Workflow status in the response.",
+                      "key": "return_workflow_status",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).",
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:17:34.000Z",
+              "updatedAt": "2026-06-05T15:17:34.000Z",
+              "uid": "35240-d84df592-eef3-4629-a6ef-af967c314aa3"
+            }
+          ],
+          "createdAt": "2026-06-05T15:17:34.000Z",
+          "updatedAt": "2026-06-05T15:17:34.000Z",
+          "uid": "35240-dc497f54-e8ed-4cfc-b950-dd88fa87ae79"
+        }
+      ],
+      "id": "77cee95e-a663-4af4-b9c6-7a7b870e7c83",
+      "createdAt": "2026-06-05T15:17:34.000Z",
+      "updatedAt": "2026-06-05T15:17:34.000Z",
+      "uid": "35240-77cee95e-a663-4af4-b9c6-7a7b870e7c83"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.sift.com/v205"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sift Labels API",
+    "version": "205"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Labels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sift Apply User Label",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v205/users/:user_id/labels",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a fraud or legitimate label to a Sift user. Labels train Sift's risk models."
+        },
+        {
+          "info": {
+            "name": "Sift Remove User Label",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sift.com/v205/users/:user_id/labels",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "abuse_type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Remove an existing label from a user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

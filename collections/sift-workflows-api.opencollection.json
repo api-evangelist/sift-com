@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sift Workflows API",
+    "version": "205"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workflows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sift Get Workflow Run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sift.com/v205/accounts/:account_id/workflows/runs/:run_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the result of a single Workflow run by its identifier."
+        },
+        {
+          "info": {
+            "name": "Sift List User Workflow Runs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sift.com/v205/accounts/:account_id/users/:user_id/workflows",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Workflow runs that have evaluated against the user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

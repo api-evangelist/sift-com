@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sift Verification API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sift Send Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v1/verification/send",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a verification challenge (SMS, email, phone, biometric) for a Sift user."
+        },
+        {
+          "info": {
+            "name": "Sift Resend Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v1/verification/resend",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resend the active verification challenge to the same destination."
+        },
+        {
+          "info": {
+            "name": "Sift Check Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v1/verification/check",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit the user-entered verification code or proof for validation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

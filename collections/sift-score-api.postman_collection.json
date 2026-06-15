@@ -1,0 +1,260 @@
+{
+  "item": [
+    {
+      "id": "fc5265ad-1995-497a-9cee-583a4e639e24",
+      "name": "Scores",
+      "description": {
+        "content": "Retrieve and recompute Sift risk scores.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "719fe349-8cb1-4c6c-96b1-a251a0f58320",
+          "name": "Sift Get User Score",
+          "request": {
+            "name": "Sift Get User Score",
+            "description": {
+              "content": "Retrieve the latest cached Sift Score for the user across the requested abuse types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "score",
+                ":user_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "abuse_types",
+                  "value": "<string>",
+                  "description": "Comma-separated abuse types to return scores for."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b6a144b7-1174-490b-b04c-0ddc08b5b01e",
+              "name": "Score response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "score",
+                    ":user_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 378,\n  \"error_message\": \"string\",\n  \"user_id\": \"string\",\n  \"scores\": {\n    \"key_0\": {\n      \"score\": 9577.14415814376\n    },\n    \"key_1\": {\n      \"score\": 1802.0485601131543\n    },\n    \"key_2\": {\n      \"score\": 7169.34220527255\n    }\n  },\n  \"latest_decisions\": {},\n  \"latest_labels\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9ae6ab9f-2a80-4b4d-892f-1e75e9d30c62",
+          "name": "Sift Rescore User",
+          "request": {
+            "name": "Sift Rescore User",
+            "description": {
+              "content": "Force a fresh Sift Score computation for the user. Useful after a label update or out-of-band signal change.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rescore",
+                ":user_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "abuse_types",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "29f3424b-0dea-49cb-b3be-875608c4ea78",
+              "name": "Rescore response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rescore",
+                    ":user_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "abuse_types",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 378,\n  \"error_message\": \"string\",\n  \"user_id\": \"string\",\n  \"scores\": {\n    \"key_0\": {\n      \"score\": 9577.14415814376\n    },\n    \"key_1\": {\n      \"score\": 1802.0485601131543\n    },\n    \"key_2\": {\n      \"score\": 7169.34220527255\n    }\n  },\n  \"latest_decisions\": {},\n  \"latest_labels\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sift.com/v205",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9828428c-2766-4a7a-aaaa-8cd8719ed70d",
+    "name": "Sift Score API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sift Score API returns risk scores for a user across the abuse types you have\nenabled (payment abuse, content abuse, account takeover, account abuse,\npromotion abuse, legacy). Scores range from 0 (lowest risk) to 100 (highest risk)\nand reflect Sift's machine learning models trained across the global Sift network.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+      "type": "text/plain"
+    }
+  }
+}

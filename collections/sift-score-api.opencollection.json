@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sift Score API",
+    "version": "205"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sift Get User Score",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sift.com/v205/score/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "abuse_types",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated abuse types to return scores for."
+              }
+            ]
+          },
+          "docs": "Retrieve the latest cached Sift Score for the user across the requested abuse types."
+        },
+        {
+          "info": {
+            "name": "Sift Rescore User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v205/rescore/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "abuse_types",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Force a fresh Sift Score computation for the user. Useful after a label update or out-of-band signal change."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

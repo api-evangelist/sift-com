@@ -1,0 +1,255 @@
+{
+  "info": {
+    "_postman_id": "70497e8d-b439-41ff-bc78-d6dd14c116df",
+    "name": "Sift Labels API",
+    "description": "The Sift Labels API records whether a user is fraudulent or legitimate. Labels\nare training signal for Sift's machine learning models. The Labels API is\ndeprecated in favor of the Decisions API for new integrations but remains\nsupported for backfill and historical bookkeeping.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:17:38.000Z",
+    "updatedAt": "2026-06-05T15:17:38.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-70497e8d-b439-41ff-bc78-d6dd14c116df"
+  },
+  "item": [
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "{user_id}",
+          "item": [
+            {
+              "name": "labels",
+              "item": [
+                {
+                  "name": "Sift Apply User Label",
+                  "id": "62d346da-d0c9-45d9-b84c-70ee61329fb8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"$api_key\": \"<string>\",\n  \"$is_bad\": \"<boolean>\",\n  \"$abuse_type\": \"promotion_abuse\",\n  \"$description\": \"<string>\",\n  \"$source\": \"<string>\",\n  \"$analyst\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:user_id/labels",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "users",
+                        ":user_id",
+                        "labels"
+                      ],
+                      "variable": [
+                        {
+                          "id": "0fcab838-d136-479d-b88c-9fb34ec29461",
+                          "key": "user_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Apply a fraud or legitimate label to a Sift user. Labels train Sift's risk models."
+                  },
+                  "response": [
+                    {
+                      "id": "55a0ecae-9417-4f37-8105-d1a96e333894",
+                      "name": "Label accepted.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: basic",
+                            "key": "Authorization",
+                            "value": "Basic <credentials>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"$api_key\": \"<string>\",\n  \"$is_bad\": \"<boolean>\",\n  \"$abuse_type\": \"promotion_abuse\",\n  \"$description\": \"<string>\",\n  \"$source\": \"<string>\",\n  \"$analyst\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/users/:user_id/labels",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "users",
+                            ":user_id",
+                            "labels"
+                          ],
+                          "variable": [
+                            {
+                              "key": "user_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:17:38.000Z",
+                      "updatedAt": "2026-06-05T15:17:38.000Z",
+                      "uid": "35240-55a0ecae-9417-4f37-8105-d1a96e333894"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:17:38.000Z",
+                  "updatedAt": "2026-06-05T15:17:38.000Z",
+                  "uid": "35240-62d346da-d0c9-45d9-b84c-70ee61329fb8"
+                },
+                {
+                  "name": "Sift Remove User Label",
+                  "id": "30ed5541-49d5-4702-b17e-a5e80dca431d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:user_id/labels?abuse_type=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "users",
+                        ":user_id",
+                        "labels"
+                      ],
+                      "query": [
+                        {
+                          "key": "abuse_type",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "13163744-ee66-491f-a7c8-2d88afaa2b30",
+                          "key": "user_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Remove an existing label from a user."
+                  },
+                  "response": [
+                    {
+                      "id": "2809b2e2-3e76-4f1c-abc2-ec913afb4752",
+                      "name": "Label removed.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: basic",
+                            "key": "Authorization",
+                            "value": "Basic <credentials>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/users/:user_id/labels?abuse_type=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "users",
+                            ":user_id",
+                            "labels"
+                          ],
+                          "query": [
+                            {
+                              "key": "abuse_type",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "user_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:17:38.000Z",
+                      "updatedAt": "2026-06-05T15:17:38.000Z",
+                      "uid": "35240-2809b2e2-3e76-4f1c-abc2-ec913afb4752"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:17:38.000Z",
+                  "updatedAt": "2026-06-05T15:17:38.000Z",
+                  "uid": "35240-30ed5541-49d5-4702-b17e-a5e80dca431d"
+                }
+              ],
+              "id": "a7266f3c-61a0-4fc3-b5e5-5d7de4508699",
+              "createdAt": "2026-06-05T15:17:38.000Z",
+              "updatedAt": "2026-06-05T15:17:38.000Z",
+              "uid": "35240-a7266f3c-61a0-4fc3-b5e5-5d7de4508699"
+            }
+          ],
+          "id": "166871a7-9836-4f0d-854f-5e87a752203a",
+          "createdAt": "2026-06-05T15:17:38.000Z",
+          "updatedAt": "2026-06-05T15:17:38.000Z",
+          "uid": "35240-166871a7-9836-4f0d-854f-5e87a752203a"
+        }
+      ],
+      "id": "c1951023-2f3a-4daa-b68f-c3db45c03bf6",
+      "createdAt": "2026-06-05T15:17:38.000Z",
+      "updatedAt": "2026-06-05T15:17:38.000Z",
+      "uid": "35240-c1951023-2f3a-4daa-b68f-c3db45c03bf6"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.sift.com/v205"
+    }
+  ]
+}

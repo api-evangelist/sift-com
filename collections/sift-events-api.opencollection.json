@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sift Events API",
+    "version": "205"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sift Send Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sift.com/v205/events",
+            "params": [
+              {
+                "name": "return_score",
+                "value": "",
+                "type": "query",
+                "description": "Return a synchronous Sift Score in the response."
+              },
+              {
+                "name": "return_workflow_status",
+                "value": "",
+                "type": "query",
+                "description": "Return synchronous Workflow status in the response."
+              },
+              {
+                "name": "abuse_types",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit an event to Sift for fraud and abuse scoring. The `$type` field selects\nthe reserved event type (for example, `$create_account`, `$create_order`,\n`$transaction`, `$login`, `$chargeback`, `$verification`). Pass\n`return_score=true` to receive a synchronous Sift Score in the response.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

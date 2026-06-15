@@ -1,0 +1,859 @@
+{
+  "info": {
+    "_postman_id": "0ce1365c-6c14-4f2c-8a32-69b5278d6565",
+    "name": "Sift Decisions API",
+    "description": "The Sift Decisions API records analyst or automation decisions (for example\nblock, watch, or accept) against users, orders, sessions, and content. Decisions\nfeed Sift's machine learning models and drive downstream webhook notifications.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:17:34.000Z",
+    "updatedAt": "2026-06-05T15:17:34.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0ce1365c-6c14-4f2c-8a32-69b5278d6565"
+  },
+  "item": [
+    {
+      "name": "accounts",
+      "item": [
+        {
+          "name": "{account_id}",
+          "item": [
+            {
+              "name": "users",
+              "item": [
+                {
+                  "name": "{user_id}",
+                  "item": [
+                    {
+                      "name": "decisions",
+                      "item": [
+                        {
+                          "name": "Sift Apply Decision To User",
+                          "id": "5855444a-b06a-4447-8b71-d71fb951ab35",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/decisions",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "accounts",
+                                ":account_id",
+                                "users",
+                                ":user_id",
+                                "decisions"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "1896710d-e567-494a-bc02-6f31a9eca5d2",
+                                  "key": "account_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "10ce5845-07a5-40c2-b152-d6c3fb880052",
+                                  "key": "user_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Apply an analyst or workflow decision to a user entity."
+                          },
+                          "response": [
+                            {
+                              "id": "c67a27f8-4217-4574-a851-f5aa43397849",
+                              "name": "Decision applied.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: basic",
+                                    "key": "Authorization",
+                                    "value": "Basic <credentials>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/decisions",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "accounts",
+                                    ":account_id",
+                                    "users",
+                                    ":user_id",
+                                    "decisions"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "account_id"
+                                    },
+                                    {
+                                      "key": "user_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"entity\": {},\n  \"decision\": {},\n  \"time\": \"<integer>\"\n}",
+                              "createdAt": "2026-06-05T15:17:35.000Z",
+                              "updatedAt": "2026-06-05T15:17:35.000Z",
+                              "uid": "35240-c67a27f8-4217-4574-a851-f5aa43397849"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:17:35.000Z",
+                          "updatedAt": "2026-06-05T15:17:35.000Z",
+                          "uid": "35240-5855444a-b06a-4447-8b71-d71fb951ab35"
+                        },
+                        {
+                          "name": "Sift Get User Decision",
+                          "id": "40db5c5f-99e8-4274-ba5e-1d6f044ac8fd",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/decisions",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "accounts",
+                                ":account_id",
+                                "users",
+                                ":user_id",
+                                "decisions"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "08c1d012-d47d-4a73-af84-e1b1cc1323f5",
+                                  "key": "account_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "3e322017-db42-4b38-ba6e-873b93707409",
+                                  "key": "user_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Retrieve the latest decision status for a user."
+                          },
+                          "response": [
+                            {
+                              "id": "974ea270-85aa-4ba8-a3c5-90fb72f28efc",
+                              "name": "User decision details.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: basic",
+                                    "key": "Authorization",
+                                    "value": "Basic <credentials>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/decisions",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "accounts",
+                                    ":account_id",
+                                    "users",
+                                    ":user_id",
+                                    "decisions"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "account_id"
+                                    },
+                                    {
+                                      "key": "user_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:17:35.000Z",
+                              "updatedAt": "2026-06-05T15:17:35.000Z",
+                              "uid": "35240-974ea270-85aa-4ba8-a3c5-90fb72f28efc"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:17:35.000Z",
+                          "updatedAt": "2026-06-05T15:17:35.000Z",
+                          "uid": "35240-40db5c5f-99e8-4274-ba5e-1d6f044ac8fd"
+                        }
+                      ],
+                      "id": "3cc1d195-7f5e-4c17-b6d3-8824640db67b",
+                      "createdAt": "2026-06-05T15:17:35.000Z",
+                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                      "uid": "35240-3cc1d195-7f5e-4c17-b6d3-8824640db67b"
+                    },
+                    {
+                      "name": "orders",
+                      "item": [
+                        {
+                          "name": "{order_id}",
+                          "item": [
+                            {
+                              "name": "decisions",
+                              "item": [
+                                {
+                                  "name": "Sift Apply Decision To Order",
+                                  "id": "8b0e1d40-ff04-434d-954e-edc3a448306a",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/orders/:order_id/decisions",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "accounts",
+                                        ":account_id",
+                                        "users",
+                                        ":user_id",
+                                        "orders",
+                                        ":order_id",
+                                        "decisions"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "d677304c-cbf8-472c-abf9-9bfe44092d64",
+                                          "key": "account_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "1fcad622-c570-4064-94e2-50fb5d180e3a",
+                                          "key": "user_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "7ec84f6a-6406-48ce-9738-3a42e3c6d5f3",
+                                          "key": "order_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Apply an analyst or workflow decision to an order entity."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "c992def3-2f9c-4e41-9f40-f32265957a9d",
+                                      "name": "Decision applied.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: basic",
+                                            "key": "Authorization",
+                                            "value": "Basic <credentials>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/orders/:order_id/decisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "accounts",
+                                            ":account_id",
+                                            "users",
+                                            ":user_id",
+                                            "orders",
+                                            ":order_id",
+                                            "decisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "account_id"
+                                            },
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "order_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "text",
+                                      "header": [],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": null,
+                                      "createdAt": "2026-06-05T15:17:35.000Z",
+                                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                                      "uid": "35240-c992def3-2f9c-4e41-9f40-f32265957a9d"
+                                    }
+                                  ],
+                                  "createdAt": "2026-06-05T15:17:35.000Z",
+                                  "updatedAt": "2026-06-05T15:17:35.000Z",
+                                  "uid": "35240-8b0e1d40-ff04-434d-954e-edc3a448306a"
+                                }
+                              ],
+                              "id": "2874a786-3990-4517-aa1f-e2bf1bf49ad6",
+                              "createdAt": "2026-06-05T15:17:35.000Z",
+                              "updatedAt": "2026-06-05T15:17:35.000Z",
+                              "uid": "35240-2874a786-3990-4517-aa1f-e2bf1bf49ad6"
+                            }
+                          ],
+                          "id": "513cb01a-ca59-4341-97a3-d78f863fef21",
+                          "createdAt": "2026-06-05T15:17:35.000Z",
+                          "updatedAt": "2026-06-05T15:17:35.000Z",
+                          "uid": "35240-513cb01a-ca59-4341-97a3-d78f863fef21"
+                        }
+                      ],
+                      "id": "a1a050dd-7283-4407-8069-1b00473ae6bd",
+                      "createdAt": "2026-06-05T15:17:35.000Z",
+                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                      "uid": "35240-a1a050dd-7283-4407-8069-1b00473ae6bd"
+                    },
+                    {
+                      "name": "sessions",
+                      "item": [
+                        {
+                          "name": "{session_id}",
+                          "item": [
+                            {
+                              "name": "decisions",
+                              "item": [
+                                {
+                                  "name": "Sift Apply Decision To Session",
+                                  "id": "4e2bbc5b-021e-4f78-8c7f-d97ab3fa0284",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/sessions/:session_id/decisions",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "accounts",
+                                        ":account_id",
+                                        "users",
+                                        ":user_id",
+                                        "sessions",
+                                        ":session_id",
+                                        "decisions"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "30fd45a8-1bb6-4c82-958b-6d7fc3879154",
+                                          "key": "account_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "d059cd50-3f29-407a-8f51-3ae8888a594f",
+                                          "key": "user_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "44a7770c-d795-4fb3-9b91-5e283bfaf347",
+                                          "key": "session_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Apply a decision to a session entity."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "198e8a61-90b5-4754-96bf-4d5eace3f7d5",
+                                      "name": "Decision applied.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: basic",
+                                            "key": "Authorization",
+                                            "value": "Basic <credentials>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/sessions/:session_id/decisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "accounts",
+                                            ":account_id",
+                                            "users",
+                                            ":user_id",
+                                            "sessions",
+                                            ":session_id",
+                                            "decisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "account_id"
+                                            },
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "session_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "text",
+                                      "header": [],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": null,
+                                      "createdAt": "2026-06-05T15:17:35.000Z",
+                                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                                      "uid": "35240-198e8a61-90b5-4754-96bf-4d5eace3f7d5"
+                                    }
+                                  ],
+                                  "createdAt": "2026-06-05T15:17:35.000Z",
+                                  "updatedAt": "2026-06-05T15:17:35.000Z",
+                                  "uid": "35240-4e2bbc5b-021e-4f78-8c7f-d97ab3fa0284"
+                                }
+                              ],
+                              "id": "9f75399f-26fc-4d85-974d-7e7fa7364c8c",
+                              "createdAt": "2026-06-05T15:17:35.000Z",
+                              "updatedAt": "2026-06-05T15:17:35.000Z",
+                              "uid": "35240-9f75399f-26fc-4d85-974d-7e7fa7364c8c"
+                            }
+                          ],
+                          "id": "ea1dfea1-e9a7-481d-9d24-ceb1d3e65ffa",
+                          "createdAt": "2026-06-05T15:17:35.000Z",
+                          "updatedAt": "2026-06-05T15:17:35.000Z",
+                          "uid": "35240-ea1dfea1-e9a7-481d-9d24-ceb1d3e65ffa"
+                        }
+                      ],
+                      "id": "4c0e97cc-5ec6-47dd-bfcf-c2cbda4a2fbe",
+                      "createdAt": "2026-06-05T15:17:35.000Z",
+                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                      "uid": "35240-4c0e97cc-5ec6-47dd-bfcf-c2cbda4a2fbe"
+                    },
+                    {
+                      "name": "content",
+                      "item": [
+                        {
+                          "name": "{content_id}",
+                          "item": [
+                            {
+                              "name": "decisions",
+                              "item": [
+                                {
+                                  "name": "Sift Apply Decision To Content",
+                                  "id": "486af19a-1d86-4a8e-bf49-5677f1e50da0",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/content/:content_id/decisions",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "accounts",
+                                        ":account_id",
+                                        "users",
+                                        ":user_id",
+                                        "content",
+                                        ":content_id",
+                                        "decisions"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "399ad3ae-9981-42cd-96a3-547496c48bf8",
+                                          "key": "account_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "b5e21544-811d-4706-9744-01228adcfcb9",
+                                          "key": "user_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "e9a94d4b-d3bd-402f-a236-b69a0f5ec0d5",
+                                          "key": "content_id",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Apply a decision to user-generated content."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "3dbb2f08-b88f-45c4-8f39-91c35cab9f93",
+                                      "name": "Decision applied.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: basic",
+                                            "key": "Authorization",
+                                            "value": "Basic <credentials>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"decision_id\": \"<string>\",\n  \"source\": \"CHARGEBACK\",\n  \"analyst\": \"<string>\",\n  \"description\": \"<string>\",\n  \"time\": \"<integer>\"\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/content/:content_id/decisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "accounts",
+                                            ":account_id",
+                                            "users",
+                                            ":user_id",
+                                            "content",
+                                            ":content_id",
+                                            "decisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "account_id"
+                                            },
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "content_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "text",
+                                      "header": [],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": null,
+                                      "createdAt": "2026-06-05T15:17:35.000Z",
+                                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                                      "uid": "35240-3dbb2f08-b88f-45c4-8f39-91c35cab9f93"
+                                    }
+                                  ],
+                                  "createdAt": "2026-06-05T15:17:35.000Z",
+                                  "updatedAt": "2026-06-05T15:17:35.000Z",
+                                  "uid": "35240-486af19a-1d86-4a8e-bf49-5677f1e50da0"
+                                }
+                              ],
+                              "id": "c23d7af6-323d-4ab3-9058-74d64dd700bd",
+                              "createdAt": "2026-06-05T15:17:35.000Z",
+                              "updatedAt": "2026-06-05T15:17:35.000Z",
+                              "uid": "35240-c23d7af6-323d-4ab3-9058-74d64dd700bd"
+                            }
+                          ],
+                          "id": "ee5b2893-3ba7-4e34-bc1a-f18f513f26a2",
+                          "createdAt": "2026-06-05T15:17:35.000Z",
+                          "updatedAt": "2026-06-05T15:17:35.000Z",
+                          "uid": "35240-ee5b2893-3ba7-4e34-bc1a-f18f513f26a2"
+                        }
+                      ],
+                      "id": "6813ad67-f2ba-44b9-bbf0-5367aa0facde",
+                      "createdAt": "2026-06-05T15:17:35.000Z",
+                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                      "uid": "35240-6813ad67-f2ba-44b9-bbf0-5367aa0facde"
+                    }
+                  ],
+                  "id": "08b0ddad-c2eb-43cc-800a-d60582b48da5",
+                  "createdAt": "2026-06-05T15:17:35.000Z",
+                  "updatedAt": "2026-06-05T15:17:35.000Z",
+                  "uid": "35240-08b0ddad-c2eb-43cc-800a-d60582b48da5"
+                }
+              ],
+              "id": "00143e17-2ef3-4940-b196-fd8f36c182ce",
+              "createdAt": "2026-06-05T15:17:35.000Z",
+              "updatedAt": "2026-06-05T15:17:35.000Z",
+              "uid": "35240-00143e17-2ef3-4940-b196-fd8f36c182ce"
+            },
+            {
+              "name": "decisions",
+              "item": [
+                {
+                  "name": "Sift List Decisions",
+                  "id": "9f34f8eb-5cff-4910-a36a-9c0ae8535326",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id/decisions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id",
+                        "decisions"
+                      ],
+                      "variable": [
+                        {
+                          "id": "53949d6e-9313-4cbc-b070-394dabfd15a0",
+                          "key": "account_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "List the configured decisions for the Sift account."
+                  },
+                  "response": [
+                    {
+                      "id": "58087ade-9fa2-424c-bfef-53841a203015",
+                      "name": "A list of decisions configured for the account.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: basic",
+                            "key": "Authorization",
+                            "value": "Basic <credentials>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/accounts/:account_id/decisions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            ":account_id",
+                            "decisions"
+                          ],
+                          "variable": [
+                            {
+                              "key": "account_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:17:35.000Z",
+                      "updatedAt": "2026-06-05T15:17:35.000Z",
+                      "uid": "35240-58087ade-9fa2-424c-bfef-53841a203015"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:17:35.000Z",
+                  "updatedAt": "2026-06-05T15:17:35.000Z",
+                  "uid": "35240-9f34f8eb-5cff-4910-a36a-9c0ae8535326"
+                }
+              ],
+              "id": "e8a22916-bef5-4ff8-a05a-97af6e29bfb4",
+              "createdAt": "2026-06-05T15:17:35.000Z",
+              "updatedAt": "2026-06-05T15:17:35.000Z",
+              "uid": "35240-e8a22916-bef5-4ff8-a05a-97af6e29bfb4"
+            }
+          ],
+          "id": "c77d3a8c-0141-40b9-bdd8-a6843d2bbc98",
+          "createdAt": "2026-06-05T15:17:35.000Z",
+          "updatedAt": "2026-06-05T15:17:35.000Z",
+          "uid": "35240-c77d3a8c-0141-40b9-bdd8-a6843d2bbc98"
+        }
+      ],
+      "id": "5cd0e17c-3cdb-4a9e-8f01-5fb65db02f7a",
+      "createdAt": "2026-06-05T15:17:35.000Z",
+      "updatedAt": "2026-06-05T15:17:35.000Z",
+      "uid": "35240-5cd0e17c-3cdb-4a9e-8f01-5fb65db02f7a"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.sift.com/v205"
+    }
+  ]
+}

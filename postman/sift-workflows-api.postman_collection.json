@@ -1,0 +1,299 @@
+{
+  "info": {
+    "_postman_id": "e4b9a6b6-a92f-454b-9831-4b21d797e9be",
+    "name": "Sift Workflows API",
+    "description": "Sift Workflows automate decisions on users, orders, sessions, and content based\non configurable criteria. The Workflows API exposes synchronous workflow\nevaluation through the Events API (`return_workflow_status=true`) and\nadministrative endpoints for inspecting workflow status and history.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:17:37.000Z",
+    "updatedAt": "2026-06-05T15:17:37.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e4b9a6b6-a92f-454b-9831-4b21d797e9be"
+  },
+  "item": [
+    {
+      "name": "accounts",
+      "item": [
+        {
+          "name": "{account_id}",
+          "item": [
+            {
+              "name": "workflows",
+              "item": [
+                {
+                  "name": "runs",
+                  "item": [
+                    {
+                      "name": "{run_id}",
+                      "item": [
+                        {
+                          "name": "Sift Get Workflow Run",
+                          "id": "8be5e8ef-bb4c-45dc-894f-294a0fe7694b",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/accounts/:account_id/workflows/runs/:run_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "accounts",
+                                ":account_id",
+                                "workflows",
+                                "runs",
+                                ":run_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "7f660b75-bcef-464e-8843-4ecc6a312ec5",
+                                  "key": "account_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "71e56255-6bd4-4915-ae41-46c8bfbf8cd7",
+                                  "key": "run_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Retrieve the result of a single Workflow run by its identifier."
+                          },
+                          "response": [
+                            {
+                              "id": "93c25b8f-c4c7-4b80-af0a-0a55406c1211",
+                              "name": "Workflow run details.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: basic",
+                                    "key": "Authorization",
+                                    "value": "Basic <credentials>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/accounts/:account_id/workflows/runs/:run_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "accounts",
+                                    ":account_id",
+                                    "workflows",
+                                    "runs",
+                                    ":run_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "account_id"
+                                    },
+                                    {
+                                      "key": "run_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<string>\",\n  \"config\": {},\n  \"config_version\": \"<integer>\",\n  \"state\": \"<string>\",\n  \"entity\": {},\n  \"abuse_types\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                              "createdAt": "2026-06-05T15:17:38.000Z",
+                              "updatedAt": "2026-06-05T15:17:38.000Z",
+                              "uid": "35240-93c25b8f-c4c7-4b80-af0a-0a55406c1211"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:17:37.000Z",
+                          "updatedAt": "2026-06-05T15:17:37.000Z",
+                          "uid": "35240-8be5e8ef-bb4c-45dc-894f-294a0fe7694b"
+                        }
+                      ],
+                      "id": "7b21b3e1-0884-41b6-8c4f-6a89807d2d56",
+                      "createdAt": "2026-06-05T15:17:37.000Z",
+                      "updatedAt": "2026-06-05T15:17:37.000Z",
+                      "uid": "35240-7b21b3e1-0884-41b6-8c4f-6a89807d2d56"
+                    }
+                  ],
+                  "id": "dfe828da-bcf6-408a-b058-6f3fe14db0d7",
+                  "createdAt": "2026-06-05T15:17:37.000Z",
+                  "updatedAt": "2026-06-05T15:17:37.000Z",
+                  "uid": "35240-dfe828da-bcf6-408a-b058-6f3fe14db0d7"
+                }
+              ],
+              "id": "1e86890b-3e2d-432b-b834-db49a6966946",
+              "createdAt": "2026-06-05T15:17:37.000Z",
+              "updatedAt": "2026-06-05T15:17:37.000Z",
+              "uid": "35240-1e86890b-3e2d-432b-b834-db49a6966946"
+            },
+            {
+              "name": "users",
+              "item": [
+                {
+                  "name": "{user_id}",
+                  "item": [
+                    {
+                      "name": "workflows",
+                      "item": [
+                        {
+                          "name": "Sift List User Workflow Runs",
+                          "id": "f956448e-372f-473d-8728-be977ebd947e",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/workflows",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "accounts",
+                                ":account_id",
+                                "users",
+                                ":user_id",
+                                "workflows"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "dcb42494-7167-4003-9df1-768033eed9b6",
+                                  "key": "account_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "4aef8548-3498-4ec9-9d7e-270e39a24e4b",
+                                  "key": "user_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "List Workflow runs that have evaluated against the user."
+                          },
+                          "response": [
+                            {
+                              "id": "ef38e040-3880-47fc-85f5-10e702eab02b",
+                              "name": "A list of workflow run summaries.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: basic",
+                                    "key": "Authorization",
+                                    "value": "Basic <credentials>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/accounts/:account_id/users/:user_id/workflows",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "accounts",
+                                    ":account_id",
+                                    "users",
+                                    ":user_id",
+                                    "workflows"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "account_id"
+                                    },
+                                    {
+                                      "key": "user_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:17:38.000Z",
+                              "updatedAt": "2026-06-05T15:17:38.000Z",
+                              "uid": "35240-ef38e040-3880-47fc-85f5-10e702eab02b"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:17:37.000Z",
+                          "updatedAt": "2026-06-05T15:17:37.000Z",
+                          "uid": "35240-f956448e-372f-473d-8728-be977ebd947e"
+                        }
+                      ],
+                      "id": "2a017467-ef30-4042-9022-b403a7044503",
+                      "createdAt": "2026-06-05T15:17:37.000Z",
+                      "updatedAt": "2026-06-05T15:17:37.000Z",
+                      "uid": "35240-2a017467-ef30-4042-9022-b403a7044503"
+                    }
+                  ],
+                  "id": "082d38a9-b2a0-46f7-bf75-e355c1935ec8",
+                  "createdAt": "2026-06-05T15:17:37.000Z",
+                  "updatedAt": "2026-06-05T15:17:37.000Z",
+                  "uid": "35240-082d38a9-b2a0-46f7-bf75-e355c1935ec8"
+                }
+              ],
+              "id": "000f6509-4da9-4bae-9376-bd21f46fb83d",
+              "createdAt": "2026-06-05T15:17:37.000Z",
+              "updatedAt": "2026-06-05T15:17:37.000Z",
+              "uid": "35240-000f6509-4da9-4bae-9376-bd21f46fb83d"
+            }
+          ],
+          "id": "28b700db-924b-4513-b759-9b5beba34f31",
+          "createdAt": "2026-06-05T15:17:37.000Z",
+          "updatedAt": "2026-06-05T15:17:37.000Z",
+          "uid": "35240-28b700db-924b-4513-b759-9b5beba34f31"
+        }
+      ],
+      "id": "8468321e-8551-47d1-a680-7e8fd64994a5",
+      "createdAt": "2026-06-05T15:17:37.000Z",
+      "updatedAt": "2026-06-05T15:17:37.000Z",
+      "uid": "35240-8468321e-8551-47d1-a680-7e8fd64994a5"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.sift.com/v205"
+    }
+  ]
+}

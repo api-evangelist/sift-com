@@ -29,8 +29,6 @@ apis:
         type: JSONSchema
       - url: examples/sift-create-order-example.json
         type: Example
-      - type: NaftikoCapability
-        url: capabilities/events-events.yaml
     description: |
       The primary Sift integration surface. POST events such as `$create_account`, `$create_order`, `$transaction`,
       `$login`, `$chargeback`, and `$verification` to api.sift.com/v205/events to feed Sift's fraud and abuse
@@ -51,8 +49,6 @@ apis:
         type: JSONSchema
       - url: examples/sift-apply-decision-example.json
         type: Example
-      - type: NaftikoCapability
-        url: capabilities/decisions-decisions.yaml
     description: |
       Apply and retrieve decisions (block, watch, accept) against Sift users, orders, sessions, and content.
       Decisions feed Sift's ML models, drive downstream webhooks, and are the modern replacement for the legacy
@@ -71,8 +67,6 @@ apis:
         type: OpenAPI
       - url: json-schema/sift-score-schema.json
         type: JSONSchema
-      - type: NaftikoCapability
-        url: capabilities/score-scores.yaml
     description: |
       Retrieve and recompute Sift Scores for a user across configured abuse types (payment, content, account
       takeover, account abuse, promotion). Scores range from 0 to 100 and ship with reason codes that explain the
@@ -91,8 +85,6 @@ apis:
         type: OpenAPI
       - url: json-schema/sift-verification-schema.json
         type: JSONSchema
-      - type: NaftikoCapability
-        url: capabilities/verification-verification.yaml
     description: |
       Send, resend, and check user verification challenges across SMS, email, phone, push, biometric, and security
       key channels. Outcomes are recorded on the user timeline and feed Sift's risk models.
@@ -108,8 +100,6 @@ apis:
         type: Documentation
       - url: openapi/sift-workflows-api-openapi.yml
         type: OpenAPI
-      - type: NaftikoCapability
-        url: capabilities/workflows-workflows.yaml
     description: |
       Sift Workflows automate decisions on users, orders, sessions, and content. The Workflows API surfaces
       synchronous workflow status through the Events API (`return_workflow_status=true`) and exposes endpoints for
@@ -126,36 +116,36 @@ apis:
         type: Documentation
       - url: openapi/sift-labels-api-openapi.yml
         type: OpenAPI
-      - type: NaftikoCapability
-        url: capabilities/labels-labels.yaml
     description: |
       Apply and remove fraud labels on Sift users. Labels are training signal for Sift's risk models. Deprecated in
       favor of the Decisions API for new integrations, but still supported for backfill.
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/sift/overview
   - type: ArazzoWorkflows
     url: arazzo/
     workflows:
-    - url: arazzo/sift-com-chargeback-label-rescore-workflow.yml
-      name: Sift Chargeback Label And Rescore
-      summary: Record a chargeback, label the user as fraudulent, and force a fresh score.
-    - url: arazzo/sift-com-login-step-up-verification-workflow.yml
-      name: Sift Login Step-Up Verification
-      summary: Score a login for account takeover and require verification when risk is high.
-    - url: arazzo/sift-com-review-and-decide-user-workflow.yml
-      name: Sift Manual Review And Decide User
-      summary: Pull a user's score, resolve a valid decision, apply it, and confirm the result.
-    - url: arazzo/sift-com-screen-account-creation-workflow.yml
-      name: Sift Screen Account Creation
-      summary: Score a new account on signup and decision the user when risk is high.
-    - url: arazzo/sift-com-screen-order-transaction-workflow.yml
-      name: Sift Screen Order And Transaction
-      summary: Score an order, confirm payment risk with the user score, and decision the order.
-    - url: arazzo/sift-com-transaction-score-decision-workflow.yml
-      name: Sift Transaction Score And Decide
-      summary: Score a transaction, read the payment score, and decision the user or session.
-    - url: arazzo/sift-com-workflow-run-evaluation-workflow.yml
-      name: Sift Workflow Run Evaluation
-      summary: Trigger a synchronous workflow evaluation, list the user's runs, and inspect one.
+      - url: arazzo/sift-com-chargeback-label-rescore-workflow.yml
+        name: Sift Chargeback Label And Rescore
+        summary: Record a chargeback, label the user as fraudulent, and force a fresh score.
+      - url: arazzo/sift-com-login-step-up-verification-workflow.yml
+        name: Sift Login Step-Up Verification
+        summary: Score a login for account takeover and require verification when risk is high.
+      - url: arazzo/sift-com-review-and-decide-user-workflow.yml
+        name: Sift Manual Review And Decide User
+        summary: Pull a user's score, resolve a valid decision, apply it, and confirm the result.
+      - url: arazzo/sift-com-screen-account-creation-workflow.yml
+        name: Sift Screen Account Creation
+        summary: Score a new account on signup and decision the user when risk is high.
+      - url: arazzo/sift-com-screen-order-transaction-workflow.yml
+        name: Sift Screen Order And Transaction
+        summary: Score an order, confirm payment risk with the user score, and decision the order.
+      - url: arazzo/sift-com-transaction-score-decision-workflow.yml
+        name: Sift Transaction Score And Decide
+        summary: Score a transaction, read the payment score, and decision the user or session.
+      - url: arazzo/sift-com-workflow-run-evaluation-workflow.yml
+        name: Sift Workflow Run Evaluation
+        summary: Trigger a synchronous workflow evaluation, list the user's runs, and inspect one.
   - url: https://sift.com
     type: Portal
   - url: https://developers.sift.com
