@@ -10,7 +10,7 @@ tags:
   - Account Takeover
   - Content Abuse
 kind: contract
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 apis:
   - aid: sift-com:sift-events-api
