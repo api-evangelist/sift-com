@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/sift-decisions-api-openapi.yml, openapi/sift-events-api-openapi.yml, openapi/sift-labels-api-openapi.yml,
+  openapi/sift-score-api-openapi.yml, openapi/sift-verification-api-openapi.yml, openapi/sift-workflows-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/sift-decisions-api-openapi.yml
+  - openapi/sift-events-api-openapi.yml
+  - openapi/sift-labels-api-openapi.yml
+  - openapi/sift-score-api-openapi.yml
+  - openapi/sift-verification-api-openapi.yml
+  - openapi/sift-workflows-api-openapi.yml
