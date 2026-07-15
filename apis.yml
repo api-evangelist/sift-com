@@ -120,6 +120,8 @@ apis:
       Apply and remove fraud labels on Sift users. Labels are training signal for Sift's risk models. Deprecated in
       favor of the Decisions API for new integrations, but still supported for backfill.
 common:
+  - type: AgenticAccess
+    url: agentic-access/sift-com-agentic-access.yml
   - type: DomainSecurity
     url: security/sift-com-domain-security.yml
   - type: Authentication
