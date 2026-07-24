@@ -1,38 +1,44 @@
 openapi: 3.1.0
 info:
-  title: Sift Score API
-  description: |
-    The Sift Score API returns risk scores for a user across the abuse types you have
-    enabled (payment abuse, content abuse, account takeover, account abuse,
-    promotion abuse, legacy). Scores range from 0 (lowest risk) to 100 (highest risk)
-    and reflect Sift's machine learning models trained across the global Sift network.
+  title: Sift Decisions Scores API
+  description: 'The Sift Decisions API records analyst or automation decisions (for example
+
+    block, watch, or accept) against users, orders, sessions, and content. Decisions
+
+    feed Sift''s machine learning models and drive downstream webhook notifications.
+
+    '
   version: '205'
   contact:
     name: Sift
     url: https://sift.com
     email: support@sift.com
+  license:
+    name: Sift API Terms of Service
+    url: https://sift.com/legal-and-compliance
 servers:
-  - url: https://api.sift.com/v205
-    description: Sift Production API
+- url: https://api.sift.com/v205
+  description: Sift Production API
 security:
-  - BasicAuth: []
+- BasicAuth: []
 tags:
-  - name: Scores
-    description: Retrieve and recompute Sift risk scores.
+- name: Scores
+  description: Retrieve and recompute Sift risk scores.
 paths:
   /score/{user_id}:
     get:
       summary: Sift Get User Score
       description: Retrieve the latest cached Sift Score for the user across the requested abuse types.
       operationId: getScore
-      tags: [Scores]
+      tags:
+      - Scores
       parameters:
-        - $ref: '#/components/parameters/UserId'
-        - name: abuse_types
-          in: query
-          schema:
-            type: string
-          description: Comma-separated abuse types to return scores for.
+      - $ref: '#/components/parameters/UserId'
+      - name: abuse_types
+        in: query
+        schema:
+          type: string
+        description: Comma-separated abuse types to return scores for.
       responses:
         '200':
           description: Score response.
@@ -45,13 +51,14 @@ paths:
       summary: Sift Rescore User
       description: Force a fresh Sift Score computation for the user. Useful after a label update or out-of-band signal change.
       operationId: rescoreUser
-      tags: [Scores]
+      tags:
+      - Scores
       parameters:
-        - $ref: '#/components/parameters/UserId'
-        - name: abuse_types
-          in: query
-          schema:
-            type: string
+      - $ref: '#/components/parameters/UserId'
+      - name: abuse_types
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: Rescore response.
@@ -60,10 +67,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScoreResponse'
 components:
-  securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
   parameters:
     UserId:
       name: user_id
@@ -100,3 +103,7 @@ components:
           type: array
           items:
             type: object
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

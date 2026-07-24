@@ -1,42 +1,48 @@
 openapi: 3.1.0
 info:
-  title: Sift Workflows API
-  description: |
-    Sift Workflows automate decisions on users, orders, sessions, and content based
-    on configurable criteria. The Workflows API exposes synchronous workflow
-    evaluation through the Events API (`return_workflow_status=true`) and
-    administrative endpoints for inspecting workflow status and history.
+  title: Sift Decisions Workflows API
+  description: 'The Sift Decisions API records analyst or automation decisions (for example
+
+    block, watch, or accept) against users, orders, sessions, and content. Decisions
+
+    feed Sift''s machine learning models and drive downstream webhook notifications.
+
+    '
   version: '205'
   contact:
     name: Sift
     url: https://sift.com
     email: support@sift.com
+  license:
+    name: Sift API Terms of Service
+    url: https://sift.com/legal-and-compliance
 servers:
-  - url: https://api.sift.com/v205
-    description: Sift Production API
+- url: https://api.sift.com/v205
+  description: Sift Production API
 security:
-  - BasicAuth: []
+- BasicAuth: []
 tags:
-  - name: Workflows
-    description: Inspect Sift Workflow evaluations.
+- name: Workflows
+  description: Inspect Sift Workflow evaluations.
 paths:
   /accounts/{account_id}/workflows/runs/{run_id}:
     get:
       summary: Sift Get Workflow Run
       description: Retrieve the result of a single Workflow run by its identifier.
       operationId: getWorkflowRun
-      tags: [Workflows]
+      tags:
+      - Workflows
       parameters:
-        - name: account_id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: run_id
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Workflow run details.
@@ -49,26 +55,23 @@ paths:
       summary: Sift List User Workflow Runs
       description: List Workflow runs that have evaluated against the user.
       operationId: listUserWorkflowRuns
-      tags: [Workflows]
+      tags:
+      - Workflows
       parameters:
-        - name: account_id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: A list of workflow run summaries.
 components:
-  securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
   schemas:
     WorkflowRun:
       type: object
@@ -91,3 +94,7 @@ components:
           type: array
           items:
             type: object
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
