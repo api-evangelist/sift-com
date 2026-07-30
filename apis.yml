@@ -10,115 +10,220 @@ tags:
   - Account Takeover
   - Content Abuse
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sift-com.png
 access: 3rd-Party
 apis:
-  - aid: sift-com:sift-events-api
-    name: Sift Events API
-    tags:
-      - Fraud
-      - Events
-      - Trust And Safety
-    humanURL: https://developers.sift.com/docs/curl/events-api
-    properties:
-      - url: https://developers.sift.com/docs/curl/events-api
-        type: Documentation
-      - url: openapi/sift-events-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/sift-event-schema.json
-        type: JSONSchema
-      - url: examples/sift-create-order-example.json
-        type: Examples
-    description: |
-      The primary Sift integration surface. POST events such as `$create_account`, `$create_order`, `$transaction`,
-      `$login`, `$chargeback`, and `$verification` to api.sift.com/v205/events to feed Sift's fraud and abuse
-      models. Synchronous scoring and workflow status can be requested per call.
-  - aid: sift-com:sift-decisions-api
-    name: Sift Decisions API
-    tags:
-      - Decisions
-      - Fraud
-      - Workflows
-    humanURL: https://developers.sift.com/docs/curl/decisions-api
-    properties:
-      - url: https://developers.sift.com/docs/curl/decisions-api
-        type: Documentation
-      - url: openapi/sift-decisions-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/sift-decision-schema.json
-        type: JSONSchema
-      - url: examples/sift-apply-decision-example.json
-        type: Examples
-    description: |
-      Apply and retrieve decisions (block, watch, accept) against Sift users, orders, sessions, and content.
-      Decisions feed Sift's ML models, drive downstream webhooks, and are the modern replacement for the legacy
-      Labels API.
-  - aid: sift-com:sift-score-api
-    name: Sift Score API
-    tags:
-      - Scores
-      - Risk
-      - Fraud
-    humanURL: https://developers.sift.com/docs/curl/score-api
-    properties:
-      - url: https://developers.sift.com/docs/curl/score-api
-        type: Documentation
-      - url: openapi/sift-score-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/sift-score-schema.json
-        type: JSONSchema
-    description: |
-      Retrieve and recompute Sift Scores for a user across configured abuse types (payment, content, account
-      takeover, account abuse, promotion). Scores range from 0 to 100 and ship with reason codes that explain the
-      contributing model features.
-  - aid: sift-com:sift-verification-api
-    name: Sift Verification API
-    tags:
-      - Verification
-      - MFA
-      - Identity
-    humanURL: https://developers.sift.com/docs/curl/verification-api
-    properties:
-      - url: https://developers.sift.com/docs/curl/verification-api
-        type: Documentation
-      - url: openapi/sift-verification-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/sift-verification-schema.json
-        type: JSONSchema
-    description: |
-      Send, resend, and check user verification challenges across SMS, email, phone, push, biometric, and security
-      key channels. Outcomes are recorded on the user timeline and feed Sift's risk models.
-  - aid: sift-com:sift-workflows-api
-    name: Sift Workflows API
-    tags:
-      - Workflows
-      - Automation
-      - Fraud
-    humanURL: https://developers.sift.com/docs/curl/workflows
-    properties:
-      - url: https://developers.sift.com/docs/curl/workflows
-        type: Documentation
-      - url: openapi/sift-workflows-api-openapi.yml
-        type: OpenAPI
-    description: |
-      Sift Workflows automate decisions on users, orders, sessions, and content. The Workflows API surfaces
-      synchronous workflow status through the Events API (`return_workflow_status=true`) and exposes endpoints for
-      retrieving Workflow run history.
-  - aid: sift-com:sift-labels-api
-    name: Sift Labels API
-    tags:
-      - Labels
-      - Fraud
-      - Deprecated
-    humanURL: https://developers.sift.com/docs/curl/labels-api
-    properties:
-      - url: https://developers.sift.com/docs/curl/labels-api
-        type: Documentation
-      - url: openapi/sift-labels-api-openapi.yml
-        type: OpenAPI
-    description: |
-      Apply and remove fraud labels on Sift users. Labels are training signal for Sift's risk models. Deprecated in
-      favor of the Decisions API for new integrations, but still supported for backfill.
+- aid: sift-com:sift-com-decisions-api
+  name: Sift Decisions API
+  description: Apply and retrieve decisions on Sift entities.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Decisions
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-decisions-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
+- aid: sift-com:sift-com-events-api
+  name: Sift Events API
+  description: Send fraud and abuse signals to Sift for scoring.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-events-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
+- aid: sift-com:sift-com-labels-api
+  name: Sift Labels API
+  description: Apply and remove fraud labels on Sift users.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Labels
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-labels-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
+- aid: sift-com:sift-com-scores-api
+  name: Sift Scores API
+  description: Retrieve and recompute Sift risk scores.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Scores
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-scores-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
+- aid: sift-com:sift-com-verification-api
+  name: Sift Verification API
+  description: Send, resend, and check verification challenges.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Verification
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-verification-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
+- aid: sift-com:sift-com-workflows-api
+  name: Sift Workflows API
+  description: Inspect Sift Workflow evaluations.
+  humanURL: https://developers.sift.com/docs/curl/events-api
+  tags:
+  - Workflows
+  properties:
+  - type: OpenAPI
+    url: openapi/sift-com-workflows-api-openapi.yml
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/events-api
+  - type: JSONSchema
+    url: json-schema/sift-event-schema.json
+  - type: Examples
+    url: examples/sift-create-order-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/decisions-api
+  - type: JSONSchema
+    url: json-schema/sift-decision-schema.json
+  - type: Examples
+    url: examples/sift-apply-decision-example.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/score-api
+  - type: JSONSchema
+    url: json-schema/sift-score-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/verification-api
+  - type: JSONSchema
+    url: json-schema/sift-verification-schema.json
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/workflows
+  - type: Documentation
+    url: https://developers.sift.com/docs/curl/labels-api
 common:
   - type: AgenticAccess
     url: agentic-access/sift-com-agentic-access.yml
