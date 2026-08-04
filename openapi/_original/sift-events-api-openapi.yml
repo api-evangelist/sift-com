@@ -1,0 +1,157 @@
+openapi: 3.1.0
+info:
+  title: Sift Events API
+  description: |
+    The Sift Events API is the primary integration point with the Sift Digital Trust
+    and Safety platform. It records user, device, payment, content, and verification
+    events used to compute fraud risk scores in real time. Events can be submitted
+    synchronously to receive an immediate risk score and workflow status.
+  version: '205'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+  license:
+    name: Sift API Terms of Service
+    url: https://sift.com/legal-and-compliance
+servers:
+  - url: https://api.sift.com/v205
+    description: Sift Production API
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Events
+    description: Send fraud and abuse signals to Sift for scoring.
+  - name: Account
+    description: Account lifecycle events.
+  - name: Order
+    description: Order, transaction, and cart events.
+  - name: Content
+    description: User generated content events.
+  - name: Verification
+    description: Identity verification events.
+paths:
+  /events:
+    post:
+      summary: Sift Send Event
+      description: |
+        Submit an event to Sift for fraud and abuse scoring. The `$type` field selects
+        the reserved event type (for example, `$create_account`, `$create_order`,
+        `$transaction`, `$login`, `$chargeback`, `$verification`). Pass
+        `return_score=true` to receive a synchronous Sift Score in the response.
+      operationId: sendEvent
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/ReturnScore'
+        - $ref: '#/components/parameters/ReturnWorkflowStatus'
+        - $ref: '#/components/parameters/AbuseTypes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Event accepted by Sift.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        '400':
+          description: Invalid request.
+        '429':
+          description: Rate limited.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: basic
+      description: Base64-encoded API key as the HTTP Basic username.
+  parameters:
+    ReturnScore:
+      name: return_score
+      in: query
+      schema:
+        type: boolean
+      description: Return a synchronous Sift Score in the response.
+    ReturnWorkflowStatus:
+      name: return_workflow_status
+      in: query
+      schema:
+        type: boolean
+      description: Return synchronous Workflow status in the response.
+    AbuseTypes:
+      name: abuse_types
+      in: query
+      schema:
+        type: string
+      description: Comma-separated abuse types (payment_abuse, content_abuse, account_takeover, account_abuse, promotion_abuse, legacy).
+  schemas:
+    Event:
+      type: object
+      required: ['$type', '$api_key']
+      properties:
+        '$type':
+          type: string
+          description: Reserved Sift event type starting with a dollar sign (for example `$create_order`).
+          enum:
+            - $create_account
+            - $update_account
+            - $create_order
+            - $update_order
+            - $transaction
+            - $login
+            - $logout
+            - $link_session_to_user
+            - $chargeback
+            - $order_status
+            - $add_item_to_cart
+            - $remove_item_from_cart
+            - $add_promotion
+            - $create_content
+            - $update_content
+            - $content_status
+            - $flag_content
+            - $submit_review
+            - $send_message
+            - $verification
+            - $update_password
+            - $security_notification
+            - $custom_event
+        '$api_key':
+          type: string
+          description: Sift account API key.
+        '$user_id':
+          type: string
+        '$session_id':
+          type: string
+        '$ip':
+          type: string
+        '$user_email':
+          type: string
+        '$browser':
+          type: object
+        '$app':
+          type: object
+    EventResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Sift internal status code (0 indicates success).
+        error_message:
+          type: string
+        time:
+          type: integer
+        request:
+          type: string
+        score_response:
+          type: object
+          description: Present when `return_score=true`.
+        workflow_statuses:
+          type: array
+          description: Present when `return_workflow_status=true`.
+          items:
+            type: object

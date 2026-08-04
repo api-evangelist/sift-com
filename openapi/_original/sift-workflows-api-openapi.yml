@@ -1,0 +1,93 @@
+openapi: 3.1.0
+info:
+  title: Sift Workflows API
+  description: |
+    Sift Workflows automate decisions on users, orders, sessions, and content based
+    on configurable criteria. The Workflows API exposes synchronous workflow
+    evaluation through the Events API (`return_workflow_status=true`) and
+    administrative endpoints for inspecting workflow status and history.
+  version: '205'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+servers:
+  - url: https://api.sift.com/v205
+    description: Sift Production API
+security:
+  - BasicAuth: []
+tags:
+  - name: Workflows
+    description: Inspect Sift Workflow evaluations.
+paths:
+  /accounts/{account_id}/workflows/runs/{run_id}:
+    get:
+      summary: Sift Get Workflow Run
+      description: Retrieve the result of a single Workflow run by its identifier.
+      operationId: getWorkflowRun
+      tags: [Workflows]
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: run_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow run details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowRun'
+  /accounts/{account_id}/users/{user_id}/workflows:
+    get:
+      summary: Sift List User Workflow Runs
+      description: List Workflow runs that have evaluated against the user.
+      operationId: listUserWorkflowRuns
+      tags: [Workflows]
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of workflow run summaries.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    WorkflowRun:
+      type: object
+      properties:
+        id:
+          type: string
+        config:
+          type: object
+        config_version:
+          type: integer
+        state:
+          type: string
+        entity:
+          type: object
+        abuse_types:
+          type: array
+          items:
+            type: string
+        history:
+          type: array
+          items:
+            type: object

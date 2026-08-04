@@ -1,0 +1,187 @@
+openapi: 3.1.0
+info:
+  title: Sift Decisions API
+  description: |
+    The Sift Decisions API records analyst or automation decisions (for example
+    block, watch, or accept) against users, orders, sessions, and content. Decisions
+    feed Sift's machine learning models and drive downstream webhook notifications.
+  version: '205'
+  contact:
+    name: Sift
+    url: https://sift.com
+    email: support@sift.com
+  license:
+    name: Sift API Terms of Service
+    url: https://sift.com/legal-and-compliance
+servers:
+  - url: https://api.sift.com/v205
+    description: Sift Production API
+security:
+  - BasicAuth: []
+tags:
+  - name: Decisions
+    description: Apply and retrieve decisions on Sift entities.
+paths:
+  /accounts/{account_id}/users/{user_id}/decisions:
+    post:
+      summary: Sift Apply Decision To User
+      description: Apply an analyst or workflow decision to a user entity.
+      operationId: applyUserDecision
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision applied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionResponse'
+    get:
+      summary: Sift Get User Decision
+      description: Retrieve the latest decision status for a user.
+      operationId: getUserDecision
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: User decision details.
+  /accounts/{account_id}/users/{user_id}/orders/{order_id}/decisions:
+    post:
+      summary: Sift Apply Decision To Order
+      description: Apply an analyst or workflow decision to an order entity.
+      operationId: applyOrderDecision
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/OrderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision applied.
+  /accounts/{account_id}/users/{user_id}/sessions/{session_id}/decisions:
+    post:
+      summary: Sift Apply Decision To Session
+      description: Apply a decision to a session entity.
+      operationId: applySessionDecision
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/SessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision applied.
+  /accounts/{account_id}/users/{user_id}/content/{content_id}/decisions:
+    post:
+      summary: Sift Apply Decision To Content
+      description: Apply a decision to user-generated content.
+      operationId: applyContentDecision
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/ContentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision applied.
+  /accounts/{account_id}/decisions:
+    get:
+      summary: Sift List Decisions
+      description: List the configured decisions for the Sift account.
+      operationId: listDecisions
+      tags: [Decisions]
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: A list of decisions configured for the account.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      required: true
+      schema:
+        type: string
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+    OrderId:
+      name: order_id
+      in: path
+      required: true
+      schema:
+        type: string
+    SessionId:
+      name: session_id
+      in: path
+      required: true
+      schema:
+        type: string
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    DecisionRequest:
+      type: object
+      required: [decision_id, source]
+      properties:
+        decision_id:
+          type: string
+          description: Identifier of the decision to apply (configured in the Sift Console).
+        source:
+          type: string
+          enum: [MANUAL_REVIEW, AUTOMATED_RULE, CHARGEBACK]
+        analyst:
+          type: string
+        description:
+          type: string
+        time:
+          type: integer
+    DecisionResponse:
+      type: object
+      properties:
+        entity:
+          type: object
+        decision:
+          type: object
+        time:
+          type: integer

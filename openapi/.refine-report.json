@@ -1,0 +1,24 @@
+{
+  "provider": "sift-com",
+  "sources": [
+    "sift-com-decisions-api-openapi.yml",
+    "sift-com-events-api-openapi.yml",
+    "sift-com-labels-api-openapi.yml",
+    "sift-com-scores-api-openapi.yml",
+    "sift-com-verification-api-openapi.yml",
+    "sift-com-workflows-api-openapi.yml"
+  ],
+  "outputs": [
+    "sift-com-decisions-api-openapi.yml",
+    "sift-com-events-api-openapi.yml",
+    "sift-com-labels-api-openapi.yml",
+    "sift-com-scores-api-openapi.yml",
+    "sift-com-verification-api-openapi.yml",
+    "sift-com-workflows-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
