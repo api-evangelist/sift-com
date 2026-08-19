@@ -1,0 +1,340 @@
+{
+  "item": [
+    {
+      "id": "8f2d73c7-9210-402b-ba3d-fc3eaec5114e",
+      "name": "Verification",
+      "description": {
+        "content": "Send, resend, and check verification challenges.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c07c0e9a-853b-460d-a28a-e11b2e25d3b6",
+          "name": "Sift Send Verification",
+          "request": {
+            "name": "Sift Send Verification",
+            "description": {
+              "content": "Initiate a verification challenge (SMS, email, phone, biometric) for a Sift user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verification",
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"$user_id\": \"<string>\",\n  \"$verification_type\": \"<string>\",\n  \"$send_to\": \"<string>\",\n  \"$verified_event\": \"<string>\",\n  \"$verified_entity_id\": \"<string>\",\n  \"$brand_name\": \"<string>\",\n  \"$language\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0e3d21ef-2e10-4ee7-9f69-c30315347345",
+              "name": "Verification dispatched.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$user_id\": \"<string>\",\n  \"$verification_type\": \"<string>\",\n  \"$send_to\": \"<string>\",\n  \"$verified_event\": \"<string>\",\n  \"$verified_entity_id\": \"<string>\",\n  \"$brand_name\": \"<string>\",\n  \"$language\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 240,\n  \"error_message\": \"string\",\n  \"sent_at\": 447,\n  \"checked_at\": 5876\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a178d6e4-749f-4318-8710-7d57b5b28a6c",
+          "name": "Sift Resend Verification",
+          "request": {
+            "name": "Sift Resend Verification",
+            "description": {
+              "content": "Resend the active verification challenge to the same destination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verification",
+                "resend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"$user_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ceaa433f-fdfe-4fbc-bdbe-e55e7518efc5",
+              "name": "Verification resent.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "resend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$user_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "abe67c48-c18e-4bb0-b015-f20eeaf2215a",
+          "name": "Sift Check Verification",
+          "request": {
+            "name": "Sift Check Verification",
+            "description": {
+              "content": "Submit the user-entered verification code or proof for validation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verification",
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"$user_id\": \"<string>\",\n  \"$code\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "26092890-2131-45e1-8e38-38993942134f",
+              "name": "Verification result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"$user_id\": \"<string>\",\n  \"$code\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 240,\n  \"error_message\": \"string\",\n  \"sent_at\": 447,\n  \"checked_at\": 5876\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sift.com/v205",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c03b2ec9-e5b2-4501-a0aa-70b7596d59a0",
+    "name": "Sift Decisions Verification API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sift Decisions API records analyst or automation decisions (for example\nblock, watch, or accept) against users, orders, sessions, and content. Decisions\nfeed Sift's machine learning models and drive downstream webhook notifications.\n\n\nContact Support:\n Name: Sift\n Email: support@sift.com",
+      "type": "text/plain"
+    }
+  }
+}
