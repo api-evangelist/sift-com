@@ -3,6 +3,14 @@ url: https://raw.githubusercontent.com/api-evangelist/sift-com/refs/heads/main/a
 name: Sift
 tags:
   - Fraud Prevention
+  - Trust and Safety
+  - Risk Scoring
+  - Identity Verification
+  - Chargebacks
+  - Account Takeover
+  - Content Abuse
+tags_raw:
+  - Fraud Prevention
   - Trust And Safety
   - Risk Scoring
   - Identity Verification
@@ -64,6 +72,8 @@ apis:
   description: Send fraud and abuse signals to Sift for scoring.
   humanURL: https://developers.sift.com/docs/curl/events-api
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
