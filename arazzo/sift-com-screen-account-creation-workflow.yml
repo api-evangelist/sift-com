@@ -13,14 +13,14 @@ info:
     the underlying OpenAPI descriptions.
   version: 1.0.0
 sourceDescriptions:
-- name: eventsApi
-  url: ../openapi/sift-events-api-openapi.yml
-  type: openapi
-- name: scoreApi
-  url: ../openapi/sift-score-api-openapi.yml
-  type: openapi
 - name: decisionsApi
-  url: ../openapi/sift-decisions-api-openapi.yml
+  url: ../openapi/sift-com-decisions-api-openapi.yml
+  type: openapi
+- name: eventsApi
+  url: ../openapi/sift-com-events-api-openapi.yml
+  type: openapi
+- name: scoresApi
+  url: ../openapi/sift-com-scores-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: screen-account-creation
