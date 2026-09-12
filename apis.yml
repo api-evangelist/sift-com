@@ -248,6 +248,8 @@ apis:
   - type: Documentation
     url: https://developers.sift.com/docs/curl/labels-api
 common:
+  - type: Website
+    url: https://www.sift.com/
   - type: AgenticAccess
     url: agentic-access/sift-com-agentic-access.yml
   - type: DomainSecurity
