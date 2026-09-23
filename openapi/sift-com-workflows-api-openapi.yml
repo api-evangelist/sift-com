@@ -1,21 +1,18 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sift Decisions Workflows API
-  description: 'The Sift Decisions API records analyst or automation decisions (for example
+  title: Sift Workflows API
+  description: 'Sift Workflows automate decisions on users, orders, sessions, and content based
 
-    block, watch, or accept) against users, orders, sessions, and content. Decisions
+    on configurable criteria. The Workflows API exposes synchronous workflow
 
-    feed Sift''s machine learning models and drive downstream webhook notifications.
+    evaluation through the Events API (`return_workflow_status=true`) and
 
-    '
+    administrative endpoints for inspecting workflow status and history.'
   version: '205'
   contact:
     name: Sift
     url: https://sift.com
     email: support@sift.com
-  license:
-    name: Sift API Terms of Service
-    url: https://sift.com/legal-and-compliance
 servers:
 - url: https://api.sift.com/v205
   description: Sift Production API
